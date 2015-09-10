@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Sijoitukset<small>    <a href="#">Kilpailu X</a></small></h1>
+
+<table class="table table-striped table-bordered">
+    <p>
+        <a href="#" class="btn btn-success">Lisää kilpailija</a>
+    </p>
+
+    <thead>
+        <tr>
+            <th>Kilpailijanumero</th>
+            <th>1. Väliaika</th>
+            <th>2. Väliaika</th>
+            <th>Loppuaika</th>
+            <th>Sijoitus</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><a href="#">1</a></td>
+            <td>00:47:31</td>
+            <td>01:54:22</td>
+            <td>02:31:01</td>
+            <td>1</td>
+            <th><a href="#" class="btn btn-default btn-sm">Muokkaa</a></th>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
+

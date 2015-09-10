@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Muokkaa kilpailijaa X</h1>
+
+  <form>
+    <div class="form-group">
+      <label>Nimi</label>
+      <input class="form-control" placeholder="Eero Ojala" type="text">
+    </div>
+    <div class="form-group">
+      <label>Syntymäpäivä</label>
+      <input class="form-control" value="1994-11-22" type="date">
+    </div>
+    <div class="form-group">
+      <label>Kotimaa</label>
+      <input class="form-control" placeholder="Suomi" type="text">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Tallenna</button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Kilpailut</h1>
+
+<p>
+    <a href="#" class="btn btn-success">Lisää kilpailu</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nimi</th>
+            <th>Järjestämispaikka</th>
+            <th>Alkamisajankohta</th>
+            <th>Päättymisajankohta</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Hiihtokilpailut</td>
+            <td>Levi, Suomi</td>
+            <td>2016-2-13 12:00</td>
+            <td>2016-2-13 17:00</td>
+            <th><a href="#" class="btn btn-default btn-sm">Muokkaa</a></th>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
