@@ -23,16 +23,14 @@ CREATE TABLE Competition(
 CREATE TABLE Participant(
     id SERIAL PRIMARY KEY,
     competitionId INTEGER REFERENCES Competition(id),
-    competitorId INTEGER REFERENCES Competitor(id),
-    participantNumber INTEGER
+    competitorId INTEGER REFERENCES Competitor(id)
 );
 
 CREATE TABLE Results(
-    participantId INTEGER PRIMARY KEY,
+    participantId INTEGER PRIMARY KEY REFERENCES Participant(id),
     participantNumber INTEGER,
-    firstSplit TIME,
-    secondSplit TIME,
-    finalSplit TIME,
-    standing INTEGER,
-    FOREIGN KEY (participantId, participantNumber) references Participant(id, participantNumber),
+    firstSplit TIMESTAMP,
+    secondSplit TIMESTAMP,
+    finalSplit TIMESTAMP,
+    standing INTEGER
 );
