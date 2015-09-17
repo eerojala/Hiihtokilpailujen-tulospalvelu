@@ -8,9 +8,9 @@ Yleisiä linkkejä:
 
 ## Linkkejä mallisivuille
 
-* [Etusivu](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/)
+* [Etusivu](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/front_page)
 * [Login](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/login)
-* [Kilpailu lista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitions)
+* [Kilpailulista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitions)
 * [Kilpailu esittely](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitions/1)
 * [Kilpailu muokkaus](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitions/1/edit)
 * [Kilpailija lista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitors)

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+
+<h1>{{competitor.name}}</h1>
+
+<p>
+    <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
+</p>
+
+<ul>
+    <li><strong>Syntymäpäivä:</strong>{{competitor.birthdate}}</li>
+    <li><strong>Kotimaa:</strong>{{competitor.country}}</li>
+    <li><strong>Osallistumiset:</strong><a href="#">Osallistumiset</a></li>
+</ul>
+{% endblock %}

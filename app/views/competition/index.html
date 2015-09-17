@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Kilpailut</h1>
+
+<p>
+    <a href="{{base_path}}/competition/new" class="btn btn-success">Lisää kilpailu</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nimi</th>
+            <th>Järjestämispaikka</th>
+            <th>Alkamisajankohta</th>
+            <th>Päättymisajankohta</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for competition in competitions %}
+        <tr>
+            <td><a href="{{base_path}}/competition/{{competition.id}}">{{competition.name}}</td>
+            <td>{{competition.location}}</td>
+            <td>{{competition.startsAt}}</td>
+            <td>{{competition.endsAt}}</td>
+            <th><a href="{{base_path}}/competition/{{competition.id}}/edit" class="btn btn-default btn-sm">Muokkaa</a></th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
