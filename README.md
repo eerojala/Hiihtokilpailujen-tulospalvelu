@@ -10,10 +10,12 @@ Yleisiä linkkejä:
 
 * [Etusivu](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/front_page)
 * [Login](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/login)
-* [Kilpailulista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/competition)
-* [Kilpailun esittely](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/competition/1)
+* [Kilpailulista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competition)
+* [Kilpailun esittely](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competition/1)
 * [Kilpailun muokkaus](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/competition/1/edit)
-* [Kilpailijalista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/competitor)
-* [Kilpailijan esittely](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/competitor/1)
+* [Kilpailijalista](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitor)
+* [Kilpailijan esittely](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competitor/1)
 * [Kilpailijan muokkaus](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/competitor/1/edit)
 * [Sijoitustaulukko](http://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/hiekkalaatikko/split_table)
+
+
