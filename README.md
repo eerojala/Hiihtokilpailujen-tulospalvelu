@@ -2,7 +2,7 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu)
+* [Linkki sovellukseeni](https://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competition)
 * [Linkki dokumentaatiooni](https://github.com/eerojala/Hiihtokilpailujen-tulospalvelu/blob/master/doc/dokumentaatio.pdf)
 * [Linkki aihekuvaukseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Hiihtokisojen_tulospalvelu.html)
 
