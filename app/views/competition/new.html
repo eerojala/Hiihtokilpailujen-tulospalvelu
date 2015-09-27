@@ -1,30 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/misc.html" as misc %}
+{% import "macros/forms.html" as forms %}
     <h1>Lisää kilpailu</h1>
-
-    <form method="post" action="{{base_path}}/competition">
-        <div class ="form-group">
-            <label>Nimi</label>
-            <input type="text" name ="name" class="form-control">
-        </div>
-        
-        <div class ="form-group">
-            <label>Sijainti</label>
-            <input type="text" name="location" class="form-control">
-        </div>
-        
-        <div class ="form-group">
-            <label>Alkamisajankohta</label>
-            <input type="datetime" name="startsAt" class="form-control">
-        </div>
-        
-        <div class ="form-group">
-            <label>Päättymisajankohta</label>
-            <input type="datetime" name="endsAt" class="form-control">
-        </div>
-        
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Lisää</button>
-        </div>
-    </form>
+    {{misc.display_errors("#{errors}")}}
+    {{forms.competition_form("#{base_path}/competition", "#{attributes}")}}
 {% endblock %}

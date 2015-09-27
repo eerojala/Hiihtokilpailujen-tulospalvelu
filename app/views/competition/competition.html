@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="alert alert-success">
-    {{message}}
-</div>
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/misc.html" as misc %}
+
+{{misc.display_message("#{message}")}}
 
 <h1>{{competition.name}}</h1>
 
-<p>
-    <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
-</p>
+<div>
+    {{buttons.edit_button("#{base_path}/competition/#{competition.id}/edit")}}{{buttons.destroy_button("#{base_path}/competition/#{competition.id}/destroy")}}  
+</div>
+
+<p></p>
 
 <ul>
     <li><strong>Järjestämispaikka:</strong>{{competition.location}}</li>

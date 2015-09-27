@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/misc.html" as misc %}
+
+{{misc.display_message("#{message}")}}
+
+
 <h1>Kilpailijat</h1>
 
 <p>
-    <a href="{{base_path}}/competitor/new" class="btn btn-success">Lisää kilpailija</a>
+    {{buttons.add_button("#{base_path}/competitor/new", "Lisää kilpailija")}}
 </p>
 
 <table class="table table-striped table-bordered">
@@ -22,7 +28,7 @@
             <td><a href="{{base_path}}/competitor/{{competitor.id}}">{{competitor.name}}</a></td>
             <td>{{competitor.birthdate}}</td>
             <td>{{competitor.country}}</td>
-            <th><a href="{{base_path}}/competitor/{{competitor.id}}/edit" class="btn btn-default btn-sm">Muokkaa</a></th>
+            <th>{{buttons.edit_button_sm("#{base_path}/competitor/#{competitor.id}/edit")}}</th>
         </tr>
         {% endfor %}
     </tbody>

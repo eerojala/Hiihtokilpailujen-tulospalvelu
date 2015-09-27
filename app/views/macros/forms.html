@@ -1,0 +1,50 @@
+{% macro competitor_form(action, attributes) %}
+    <form method="post" action="{{action}}">
+        <div class="form-group">
+            <label class="control-label">Nimi</label>
+            <input type="text" name="name" class="form-control" value="{{attributes.name}}">
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label">Syntymäpäivä</label>
+            <input type="text" name="birthdate" class="form-control" value="{{attributes.birthdate}}">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Kotimaa</label>
+            <input type="text" name="country" class="form-control" value="{{attributes.country}}">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Lisää</button>
+        </div>
+    </form>
+{% endmacro %}
+
+{% macro competition_form(action, attributes) %}
+<form method="post" action="{{action}}">
+        <div class ="form-group">
+            <label class="control-label">Nimi</label>
+            <input type="text" name ="name" class="form-control" value="{{attributes.name}}">
+        </div>
+        
+        <div class ="form-group">
+            <label class="control-label">Sijainti</label>
+            <input type="text" name="location" class="form-control" value="{{attributes.location}}">
+        </div>
+        
+        <div class ="form-group">
+            <label class="control-label">Alkamisajankohta</label>
+            <input type="text" name="startsAt" class="form-control" value="{{attributes.startsAt}}">
+        </div>
+        
+        <div class ="form-group">
+            <label class="control-label">Päättymisajankohta</label>
+            <input type="text" name="endsAt" class="form-control" value="{{attributes.endsAt}}">
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Lisää</button>
+        </div>
+    </form>
+{% endmacro %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/misc.html" as misc %}
+  <h1>Kirjaudu sisään</h1>
+  
+  {{misc.display_errors("#{errors}")}}
+  
+  <form method="post" action="{{base_path}}/login">
+      <div class="form-group">
+      <label>Käyttäjätunnus</label>
+      <input type="text" class="form-control" name="username" value="{{username}}">
+    </div>
+      
+    <div class="form-group">
+      <label>Salasana</label>
+      <input type="password" class="form-control" name="password">
+    </div>
+      
+    {{buttons.submit_button("Kirjaudu sisään")}}
+  </form>
+{% endblock %}
+

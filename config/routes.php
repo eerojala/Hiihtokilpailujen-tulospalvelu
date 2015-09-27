@@ -40,6 +40,18 @@ $routes->get('/hiekkalaatikko/split_table', function() {
     HelloWorldController::split_table();
 });
 
+$routes->get('/login', function() {
+    UserController::login();
+});
+
+$routes->post('/login', function() {
+    UserController::handle_login();
+});
+
+$routes->get('/', function() {
+    FrontPageController::index();
+});
+
 $routes->get('/competitor', function() {
     CompetitorController::index();
 });
@@ -49,11 +61,24 @@ $routes->post('/competitor', function() {
 });
 
 $routes->get('/competitor/new', function() {
-    CompetitorController::create();;
+    CompetitorController::create();
+    ;
 });
 
 $routes->get('/competitor/:id', function($id) {
     CompetitorController::show($id);
+});
+
+$routes->get('/competitor/:id/edit', function($id) {
+    CompetitorController::edit($id);
+});
+
+$routes->post('/competitor/:id/edit', function($id) {
+    CompetitorController::update($id);
+});
+
+$routes->post('/competitor/:id/destroy', function($id) {
+    CompetitorController::destroy($id);
 });
 
 $routes->get('/competition', function() {
@@ -64,10 +89,22 @@ $routes->post('/competition', function() {
     CompetitionController::store();
 });
 
-$routes->get('/competition/new', function(){
+$routes->get('/competition/new', function() {
     CompetitionController::create();
 });
 
 $routes->get('/competition/:id', function($id) {
     CompetitionController::show($id);
+});
+
+$routes->get('/competition/:id/edit', function($id) {
+    CompetitionController::edit($id);
+});
+
+$routes->post('/competition/:id/edit', function($id) {
+    CompetitionController::update($id);
+});
+
+$routes->post('/competition/:id/destroy', function($id) {
+    CompetitionController::destroy($id);
 });

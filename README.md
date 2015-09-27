@@ -1,10 +1,13 @@
 # Tietokantasovelluksen esittelysivu
 
-Yleisiä linkkejä:
+## Tunnukset ja salasanat
+Käyttäjätunnus: admin Salasana: 12345
 
-* [Linkki sovellukseeni](https://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu/competition)
-* [Linkki dokumentaatiooni](https://github.com/eerojala/Hiihtokilpailujen-tulospalvelu/blob/master/doc/dokumentaatio.pdf)
-* [Linkki aihekuvaukseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Hiihtokisojen_tulospalvelu.html)
+## Yleisiä linkkejä
+
+* [Linkki sovellukseeni](https://eerojala.users.cs.helsinki.fi/tsoha-hiihtokilpailu)
+* [Dokumentaatio](https://github.com/eerojala/Hiihtokilpailujen-tulospalvelu/blob/master/doc/dokumentaatio.pdf)
+* [Aihekuvaus](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Hiihtokisojen_tulospalvelu.html)
 
 ## Linkkejä mallisivuille
 

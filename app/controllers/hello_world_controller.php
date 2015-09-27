@@ -1,5 +1,4 @@
 <?php
-
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -7,10 +6,14 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        $competitions = Competition::all();
-        $competition = Competition::find(1);
-        Kint::dump($competitions);        
-        Kint::dump($competition);
+        $test = new Competition(array(
+            'name' => 'naaa',
+            'location' => 'l',
+            'startsAt' => '02.11.1994 12:00',
+            'endsAt' => '3.11.1994 17:00'
+        ));
+        $errors = $test->errors();
+        Kint::dump($errors);
     }
 
     public static function competition_edit() {

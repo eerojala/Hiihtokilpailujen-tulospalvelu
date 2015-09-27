@@ -16,18 +16,17 @@ CREATE TABLE Competition(
     competitionName varchar(100) NOT null,
     location varchar(100) NOT null,
     startsAt timestamp,
-    endsAt timestamp,
-    finished boolean
+    endsAt timestamp
 );
 
 CREATE TABLE Participant(
     id SERIAL PRIMARY KEY,
-    competitionId INTEGER REFERENCES Competition(id),
-    competitorId INTEGER REFERENCES Competitor(id)
+    competitionId INTEGER REFERENCES Competition(id) ON DELETE CASCADE,
+    competitorId INTEGER REFERENCES Competitor(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Results(
-    participantId INTEGER PRIMARY KEY REFERENCES Participant(id),
+    participantId INTEGER PRIMARY KEY REFERENCES Participant(id) ON DELETE CASCADE,
     participantNumber INTEGER,
     firstSplit TIMESTAMP,
     secondSplit TIMESTAMP,

@@ -21,9 +21,51 @@
 
       foreach($this->validators as $validator){
         // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
+          $validatorErrors = $this->{$validator}();
+          $errors = array_merge($errors, $validatorErrors);
       }
 
       return $errors;
     }
-
+    
+//    public static function validate_string($string, $minLength, $maxLength) {
+//        $errors = array();
+//        if ($string == '' || $string == null) {
+//            $errors[] = 'Merkkijono ei saa olla tyhjä!';
+//        }
+//        
+//        if (strlen($string) > $maxLength || strlen($string < $minLength)) {
+//            $errors[] = 'Merkkijonon tulee olla vähintään ' + $minLength +
+//                    ' merkkiä pitkä ja enintään ' + $maxLength + ' merkkiä pitkä';
+//        }
+//        return $errors;
+//    }
+    
+    public static function string_not_null_or_empty($string) {
+        if ($string == '' || $string == null) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static function string_is_proper_length($string, $min, $max) {
+        if (strlen($string) < $min || strlen($string) > $max) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static function date_is_proper_format($date) {
+        $dt = DateTime::createFromFormat("d.m.Y", $date);
+        return $dt !== false && !array_sum($dt->getLastErrors());
+        // stackoverflow copypaste:
+        // $dt !== false ensures that the date can be parsed with the specified
+        // fortmat and the array_sum trick is a terse way of ensuring that PHP 
+        // did not do "month shifting" (e.g. consider that January 32 is February 1).
+    }
+    
+    public static function dateTime_is_proper_format($dateTime) {
+        $dt = DateTime::createFromFormat("d.m.Y G:i", $dateTime);
+        return $dt !== false && !array_sum($dt->getLastErrors());
+    }
   }
