@@ -13,10 +13,12 @@ class CompetitorController extends BaseController {
     }
 
     public static function create() {
+        self::check_logged_in();
         View::make('competitor/new.html');
     }
 
     public static function store() {
+        self::check_logged_in();
         $params = $_POST;
         $attributes = array(
             'name' => $params['name'],
@@ -35,11 +37,13 @@ class CompetitorController extends BaseController {
     }
 
     public static function edit($id) {
+        self::check_logged_in();
         $competitor = Competitor::find($id);
         View::make('competitor/edit.html', array('attributes' => $competitor));
     }
     
     public static function update($id) {
+        self::check_logged_in();
         $params = $_POST;
         $attributes = array(
             'id' => $id,
@@ -60,6 +64,7 @@ class CompetitorController extends BaseController {
     }
     
     public static function destroy($id) {
+        self::check_logged_in();
         Competitor::delete($id);
         Redirect::to('/competitor', array('message' => 'Kilpailija on poistettu onnistuneesti!'));
     }

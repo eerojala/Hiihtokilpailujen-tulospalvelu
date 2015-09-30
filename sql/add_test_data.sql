@@ -14,7 +14,7 @@ INSERT INTO Competition (competitionName, location, startsAt, endsAt)
 VALUES ('kisa2', 'Mesta, Suomi', TIMESTAMP '1999-12-31 23:00:00',
 TIMESTAMP '2000-01-01 01:00:00');
 
-INSERT INTO Participant (competitionId, competitorId) VALUES(
+INSERT INTO Participant (competitionId, competitorId, participantNumber) VALUES(
     (
     SELECT id FROM Competition
     WHERE competitionName = 'kisa1'
@@ -22,10 +22,10 @@ INSERT INTO Participant (competitionId, competitorId) VALUES(
     (
     SELECT id FROM Competitor
     WHERE competitorName = 'eero'
-    )
+    ), 1
 );
 
-INSERT INTO Participant (competitionId, competitorId) VALUES(
+INSERT INTO Participant (competitionId, competitorId, participantNumber) VALUES(
     (
     SELECT id FROM Competition
     WHERE competitionName = 'kisa1'
@@ -33,21 +33,21 @@ INSERT INTO Participant (competitionId, competitorId) VALUES(
     (
     SELECT id FROM Competitor
     WHERE competitorName = 'joq'
-    )
+    ), 2
 );
 
-INSERT INTO Results (participantId, participantNumber, firstSplit, secondSplit, 
+INSERT INTO Results (participantId, firstSplit, secondSplit, 
 finalSplit, standing) VALUES(
     (
     SELECT Participant.id FROM Participant, Competitor
     WHERE Competitor.id = Participant.competitorId and Competitor.competitorName = 'eero'
-    ), 1, TIMESTAMP '2015-09-12 12:27:16.01' , TIMESTAMP '2015-09-12 13:35:56.02', TIMESTAMP '2015-09-12 14:12:01.03', 1
+    ), TIMESTAMP '2015-09-12 12:27:16.01' , TIMESTAMP '2015-09-12 13:35:56.02', TIMESTAMP '2015-09-12 14:12:01.03', 1
 );
 
-INSERT INTO Results (participantId, participantNumber, firstSplit, secondSplit,
+INSERT INTO Results (participantId, firstSplit, secondSplit,
 finalSplit, standing) VALUES(
     (
     SELECT Participant.id FROM Participant, Competitor
     WHERE Competitor.id = Participant.competitorId and Competitor.competitorName = 'joq'
-    ), 2, TIMESTAMP '2015-09-12 12:25:00.04', TIMESTAMP '2015-09-12 13:29:44.05', TIMESTAMP '2015-09-12 14:11:32.06', 2
+    ), TIMESTAMP '2015-09-12 12:25:00.04', TIMESTAMP '2015-09-12 13:29:44.05', TIMESTAMP '2015-09-12 14:11:32.06', 2
 );

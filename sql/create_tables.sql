@@ -22,12 +22,12 @@ CREATE TABLE Competition(
 CREATE TABLE Participant(
     id SERIAL PRIMARY KEY,
     competitionId INTEGER REFERENCES Competition(id) ON DELETE CASCADE,
-    competitorId INTEGER REFERENCES Competitor(id) ON DELETE CASCADE
+    competitorId INTEGER REFERENCES Competitor(id) ON DELETE CASCADE,
+    participantNumber INTEGER
 );
 
 CREATE TABLE Results(
     participantId INTEGER PRIMARY KEY REFERENCES Participant(id) ON DELETE CASCADE,
-    participantNumber INTEGER,
     firstSplit TIMESTAMP,
     secondSplit TIMESTAMP,
     finalSplit TIMESTAMP,

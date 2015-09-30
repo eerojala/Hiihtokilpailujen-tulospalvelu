@@ -17,6 +17,7 @@
     <li><strong>Järjestämispaikka:</strong>{{competition.location}}</li>
     <li><strong>Alkamisajankohta:</strong>{{competition.startsAt}}</li>
     <li><strong>Päättymisajankohta:</strong>{{competition.endsAt}}</li>
-    <li><strong><a href="#">Sijoitukset</a></strong></li>
+    <li><strong><a href="{{base_path}}/competition/{{competition.id}}/participants">Osallistujat</a></strong></li>
+    <li><strong><a href="#">Tulokset</a></strong></li>
 </ul>
 {% endblock %}

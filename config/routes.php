@@ -48,6 +48,10 @@ $routes->post('/login', function() {
     UserController::handle_login();
 });
 
+$routes->post('/logout', function(){
+    UserController::logout();
+});
+
 $routes->get('/', function() {
     FrontPageController::index();
 });
@@ -107,4 +111,12 @@ $routes->post('/competition/:id/edit', function($id) {
 
 $routes->post('/competition/:id/destroy', function($id) {
     CompetitionController::destroy($id);
+});
+
+$routes->get('/competition/:id/participants', function($id) {
+    CompetitionController::participants($id);
+});
+
+$routes->get('/participant', function(){
+    ParticipantController::index();
 });
