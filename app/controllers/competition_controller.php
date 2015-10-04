@@ -71,11 +71,6 @@ class CompetitionController extends BaseController {
         Redirect::to('/competition', array('message' => 'Kilpailu on poistettu onnistuneesti!'));
     }
     
-    public static function participants($id) {
-        $participants = Participant::competition_participants($id);
-        $name = Competition::find($id)->name;
-        View::make('/participant/index.html', array(
-            'header' => $name . ' osallistujat', 'participants' => $participants));
-    }
+    
 
 }

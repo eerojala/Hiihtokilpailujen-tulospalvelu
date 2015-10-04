@@ -28,6 +28,17 @@
       return $errors;
     }
     
+    public static function get_every_id($table_name) {
+        $query = DB::connection()->prepare('SELECT id FROM ' . $table_name);
+        $query->execute();
+        $rows = $query->fetchAll();
+        $ids = array();
+        foreach ($rows as $row) {
+            $ids[] = $row['id'];
+        }
+        return $ids;
+    }
+    
 //    public static function validate_string($string, $minLength, $maxLength) {
 //        $errors = array();
 //        if ($string == '' || $string == null) {
@@ -68,4 +79,6 @@
         $dt = DateTime::createFromFormat("d.m.Y G:i", $dateTime);
         return $dt !== false && !array_sum($dt->getLastErrors());
     }
+    
+    
   }

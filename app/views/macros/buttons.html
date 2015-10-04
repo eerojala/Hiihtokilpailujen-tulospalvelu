@@ -1,5 +1,5 @@
-{% macro destroy_button(action) %}
-    <form method="post" action="{{action}}" style="display: inline-block;">
+{% macro destroy_button(action, message) %}
+    <form method="post" action="{{action}}" class="destroy-form" data-confirm="{{message}}" style="display: inline-block;">
         <button type="submit" class="btn btn-danger">Poista</button>
     </form>
 {% endmacro %}
@@ -18,4 +18,10 @@
 
 {% macro submit_button(text) %}
     <button type="submit" class="btn btn-primary">{{text|default('Tallenna')}}</button>
+{% endmacro %}
+
+{% macro destroy_button_sm(action, message) %}
+    <form method="post" action="{{action}}" class="destroy-form" data-confirm="{{message}}" style="display: inline-block;">
+        <button type="submit" class="btn btn-default btn-sm">Poista</button>
+    </form>
 {% endmacro %}

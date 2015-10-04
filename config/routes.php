@@ -114,9 +114,25 @@ $routes->post('/competition/:id/destroy', function($id) {
 });
 
 $routes->get('/competition/:id/participants', function($id) {
-    CompetitionController::participants($id);
+    ParticipantController::competition_participants($id);
 });
 
-$routes->get('/participant', function(){
-    ParticipantController::index();
+$routes->post('/participant', function() {
+    ParticipantController::store();
+});
+
+$routes->get('/competition/:id/participants/new', function($id) {
+    ParticipantController::create($id);
+});
+
+$routes->get('/participant/:id/edit', function($id){
+    ParticipantController::edit($id);
+});
+
+$routes->post('/participant/:id/edit', function($id){
+    ParticipantController::update($id);
+});
+
+$routes->post('/participant/:id/destroy', function($id) {
+    ParticipantController::destroy($id);
 });

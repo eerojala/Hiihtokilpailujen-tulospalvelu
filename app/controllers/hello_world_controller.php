@@ -6,11 +6,10 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        $test = new Competition(array(
-            'name' => 'naaa',
-            'location' => 'l',
-            'startsAt' => '02.11.1994 12:00',
-            'endsAt' => '3.11.1994 17:00'
+        $test = new Participant(array(
+            'competition_id' => '3',
+            'competitor_id' => 'dsfdfsfdsfdsfd',
+            'number' => 'fdsffddfsfds'
         ));
         $errors = $test->errors();
         Kint::dump($errors);
