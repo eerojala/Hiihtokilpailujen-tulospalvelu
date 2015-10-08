@@ -136,3 +136,11 @@ $routes->post('/participant/:id/edit', function($id){
 $routes->post('/participant/:id/destroy', function($id) {
     ParticipantController::destroy($id);
 });
+
+$routes->get('/competition/:id/results', function($id) {
+    ResultsController::competition_results($id);
+});
+
+$routes->get('/competitor/:id/results', function($id) {
+    ResultsController::competitor_results($id);
+});

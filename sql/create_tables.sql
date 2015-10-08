@@ -33,3 +33,9 @@ CREATE TABLE Results(
     finalSplit TIMESTAMP,
     standing INTEGER
 );
+
+CREATE TABLE Split(
+    id SERIAL PRIMARY KEY,
+    participantId INTEGER REFERENCES Participant(id) ON DELETE CASCADE,
+    splitNumber INTEGER NOT NULL
+);
