@@ -5,18 +5,28 @@
 
 {{misc.display_message("#{message}")}}
 
+<h1>
+    {% if competition_participants == true %}
+    Kilpailun <a href="{{base_path}}/competition/{{header_object.id}}">{{header_object.name}}</a> osallistujat
+    {% else %}
+    Kilpailijan <a href="{{base_path}}/competitor/{{header_object.id}}">{{header_object.name}}</a> osallistumiset
+    {% endif %}
+</h1>
 
-<h1>Kilpailun <a href="{{base_path}}/competition/{{competition.id}}">{{competition.name}}</a> osallistujat</h1>
 
 <p>
-    {{buttons.add_button("#{base_path}/competition/#{competition.id}/participants/new", "Lisää osallistuja")}}
+    {% if competition_participants == true %}
+    {{buttons.add_button("#{base_path}/competition/#{header_object.id}/participants/new", "Lisää osallistuja")}}
+    {% endif %}
 </p>
+
 
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Kilpailija</th>
+            <th>Nimi</th>
             <th>Numero</th>
+            <th>Sijoitus</th>
             <th></th>
             <th></th>
         </tr>
@@ -25,8 +35,15 @@
     <tbody>
         {% for participant in participants %}
         <tr>
-            <td><a href="{{base_path}}/competitor/{{participant.competitor_id}}">{{participant.competitor_name}}</a></td>
+            <td>
+                {% if competition_participants == true %}
+                <a href="{{base_path}}/competitor/{{participant.competitor_id}}">{{participant.competitor_name}}</a>
+                {% else %}
+                <a href="{{base_path}}/competition/{{participant.competition_id}}">{{participant.competition_name}}</a>
+                {% endif %}
+            </td>
             <td>{{participant.number}}</td>
+            <td>{{participant.standing}}</td>
             <th>{{buttons.edit_button_sm("#{base_path}/participant/#{participant.id}/edit")}}</th>
             <th>{{buttons.destroy_button_sm("#{base_path}/participant/#{participant.id}/destroy", "Oletko varma että haluat poistaa kilpailijan #{participant.competitor_name} kilpailusta #{participant.competition_name}?")}}</th>
         </tr>

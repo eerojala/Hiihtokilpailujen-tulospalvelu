@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/misc.html" as misc %}
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/forms.html" as forms %}
+
+
+<h1>Lisää kilpailuun {{participant.competition_name}} kilpailijalle {{participant.competitor_name}} väliaika</h1>
+{{misc.display_errors("#{errors}")}}
+{{forms.split_form("#{base_path}/split", "#{attributes}")}}
+{% endblock %}

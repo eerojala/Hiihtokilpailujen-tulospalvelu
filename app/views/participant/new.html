@@ -3,7 +3,10 @@
 {% import "macros/misc.html" as misc %}
 {% import "macros/forms.html" as forms %}
 
-<h1>Lisää kilpailuun osallistuja</h1>
+
+<h1>Lisää kilpailija kilpailuun</h1>
+
+
 {{misc.display_errors("#{errors}")}}
 {{forms.participant_form("#{base_path}/participant", "#{competitions}", "#{competitors}")}}
 {% endblock %}

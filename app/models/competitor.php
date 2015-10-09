@@ -41,12 +41,12 @@ class Competitor extends BaseModel {
         $rows = $query->fetchAll();
         $competitors = array();
         foreach ($rows as $row) {
-            $competitors[] = new Competitor(Competitor::getAttributes($row));
+            $competitors[] = new Competitor(self::get_attributes($row));
         }
         return $competitors;
     }
     
-    private static function getAttributes($row) {
+    private static function get_attributes($row) {
         $attributes = array();
         $attributes['id'] = $row['id'];
         $attributes['name'] = $row['competitorname'];
@@ -61,7 +61,7 @@ class Competitor extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            return new Competitor(Competitor::getAttributes($row));
+            return new Competitor(Competitor::get_attributes($row));
         }
         return null;
     }

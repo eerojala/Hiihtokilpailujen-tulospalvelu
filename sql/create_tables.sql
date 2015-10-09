@@ -23,19 +23,13 @@ CREATE TABLE Participant(
     id SERIAL PRIMARY KEY,
     competitionId INTEGER REFERENCES Competition(id) ON DELETE CASCADE,
     competitorId INTEGER REFERENCES Competitor(id) ON DELETE CASCADE,
-    participantNumber INTEGER
-);
-
-CREATE TABLE Results(
-    participantId INTEGER PRIMARY KEY REFERENCES Participant(id) ON DELETE CASCADE,
-    firstSplit TIMESTAMP,
-    secondSplit TIMESTAMP,
-    finalSplit TIMESTAMP,
+    participantNumber INTEGER NOT NULL,
     standing INTEGER
 );
 
 CREATE TABLE Split(
     id SERIAL PRIMARY KEY,
     participantId INTEGER REFERENCES Participant(id) ON DELETE CASCADE,
-    splitNumber INTEGER NOT NULL
+    splitNumber INTEGER NOT null,
+    splitTime INTERVAL NOT null
 );

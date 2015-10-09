@@ -36,18 +36,23 @@ INSERT INTO Participant (competitionId, competitorId, participantNumber) VALUES(
     ), 2
 );
 
-INSERT INTO Results (participantId, firstSplit, secondSplit, 
-finalSplit, standing) VALUES(
+INSERT INTO Split (participantId, splitNumber, splitTime) VALUES(
     (
     SELECT Participant.id FROM Participant, Competitor
     WHERE Competitor.id = Participant.competitorId and Competitor.competitorName = 'eero'
-    ), TIMESTAMP '2015-09-12 12:27:16.01' , TIMESTAMP '2015-09-12 13:35:56.02', TIMESTAMP '2015-09-12 14:12:01.03', 1
+    ), 1, INTERVAL '00:28:22.43' 
 );
 
-INSERT INTO Results (participantId, firstSplit, secondSplit,
-finalSplit, standing) VALUES(
+INSERT INTO Split (participantId, splitNumber, splitTime) VALUES(
+    (
+    SELECT Participant.id FROM Participant, Competitor
+    WHERE Competitor.id = Participant.competitorId and Competitor.competitorName = 'eero'
+    ), 2, INTERVAL '00:57:34.79' 
+);
+
+INSERT INTO Split (participantId, splitNumber, splitTime) VALUES(
     (
     SELECT Participant.id FROM Participant, Competitor
     WHERE Competitor.id = Participant.competitorId and Competitor.competitorName = 'joq'
-    ), TIMESTAMP '2015-09-12 12:25:00.04', TIMESTAMP '2015-09-12 13:29:44.05', TIMESTAMP '2015-09-12 14:11:32.06', 2
+    ), 1, INTERVAL '00:27:16.01'
 );

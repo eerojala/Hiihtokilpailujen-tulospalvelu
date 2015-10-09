@@ -2,7 +2,8 @@
 
 class Participant extends BaseModel {
 
-    public $id, $competition_id, $competition_name, $competitor_id, $competitor_name, $number;
+    public $id, $competition_id, $competition_name, $competitor_id, $competitor_name, 
+            $number, $standing;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -15,12 +16,12 @@ class Participant extends BaseModel {
                 . '(competitionid, competitorid, participantnumber) '
                 . 'VALUES (:competitionid, :competitorid, :participantnumber) '
                 . 'RETURNING id');
-        $query->execute($this->queryValues());
+        $query->execute($this->query_values());
         $row = $query->fetch();
         $this->id = $row['id'];
     }
 
-    private function queryValues() {
+    private function query_values() {
         $values = array();
         $values['competitionid'] = $this->competition_id;
         $values['competitorid'] = $this->competitor_id;
@@ -31,28 +32,30 @@ class Participant extends BaseModel {
     public function update() {
         $query = DB::connection()->prepare("UPDATE Participant "
                 . "SET competitionid = :competitionid, competitorid = :competitorid, "
-                . "participantnumber = :participantnumber WHERE id = :id");
-        $queryValues = $this->queryValues();
+                . "participantnumber = :participantnumber, standing = :standing "
+                . "WHERE id = :id");
+        $queryValues = $this->query_values();
         $queryValues['id'] = $this->id;
+        $queryValues['standing'] = $this->standing;
         $query->execute($queryValues);
     }
 
     public static function all() {
         $query = DB::connection()->prepare("SELECT * FROM Participant");
         $query->execute();
-        return Participant::participant_list($query);
+        return self::participant_list($query);
     }
 
     private static function participant_list($query) {
         $rows = $query->fetchAll();
         $participants = array();
         foreach ($rows as $row) {
-            $participants[] = new Participant(Participant::getAttributes($row));
+            $participants[] = new Participant(self::get_attributes($row));
         }
         return $participants;
     }
 
-    public static function getAttributes($row) {
+    private static function get_attributes($row) {
         $attributes = array();
         $attributes['id'] = $row['id'];
         $attributes['competition_id'] = $row['competitionid'];
@@ -60,6 +63,7 @@ class Participant extends BaseModel {
         $attributes['competitor_id'] = $row['competitorid'];
         $attributes['competitor_name'] = Competitor::find($attributes['competitor_id'])->name;
         $attributes['number'] = $row['participantnumber'];
+        $attributes['standing'] = $row['standing'];
         return $attributes;
     }
     
@@ -69,7 +73,7 @@ class Participant extends BaseModel {
         $row = $query->fetch();
         
         if ($row) {
-            return new Participant(Participant::getAttributes($row));
+            return new Participant(self::get_attributes($row));
         }
         return null;
     }
@@ -78,11 +82,18 @@ class Participant extends BaseModel {
         $query = DB::connection()->prepare(
                 "SELECT * FROM Participant WHERE competitionid = :compid");
         $query->execute(array('compid' => $competition_id));
-        return Participant::participant_list($query);
+        return self::participant_list($query);
+    }
+    
+    public static function get_competitor_participations($competitor_id) {
+        $query = DB::connection()->prepare(''
+                . 'SELECT * FROM Participant WHERE competitorid = :compid');
+        $query->execute(array('compid' => $competitor_id));
+        return self::participant_list($query);
     }
     
     private static function get_competition_participants_competitor_ids($competition_id) {
-        $participants = Participant::get_competition_participants($competition_id);
+        $participants = self::get_competition_participants($competition_id);
         $competitor_ids = array();
         foreach($participants as $participant) {
             $competitor_ids[] = $participant->competitor_id;
@@ -91,7 +102,7 @@ class Participant extends BaseModel {
     }
 
     private static function get_competition_participant_numbers($competition_id) {
-        $participants = Participant::get_competition_participants($competition_id);
+        $participants = self::get_competition_participants($competition_id);
         $numbers = array();
         foreach ($participants as $participant) {
             $numbers[] = $participant->number;

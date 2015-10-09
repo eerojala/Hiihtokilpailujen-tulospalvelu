@@ -48,7 +48,7 @@ $routes->post('/login', function() {
     UserController::handle_login();
 });
 
-$routes->post('/logout', function(){
+$routes->post('/logout', function() {
     UserController::logout();
 });
 
@@ -117,6 +117,10 @@ $routes->get('/competition/:id/participants', function($id) {
     ParticipantController::competition_participants($id);
 });
 
+$routes->get('/competitor/:id/participations', function($id) {
+    ParticipantController::competitor_participations($id);
+});
+
 $routes->post('/participant', function() {
     ParticipantController::store();
 });
@@ -125,11 +129,11 @@ $routes->get('/competition/:id/participants/new', function($id) {
     ParticipantController::create($id);
 });
 
-$routes->get('/participant/:id/edit', function($id){
+$routes->get('/participant/:id/edit', function($id) {
     ParticipantController::edit($id);
 });
 
-$routes->post('/participant/:id/edit', function($id){
+$routes->post('/participant/:id/edit', function($id) {
     ParticipantController::update($id);
 });
 
@@ -137,10 +141,14 @@ $routes->post('/participant/:id/destroy', function($id) {
     ParticipantController::destroy($id);
 });
 
-$routes->get('/competition/:id/results', function($id) {
-    ResultsController::competition_results($id);
+$routes->get('/competition/:id/splits', function($id) {
+    SplitController::competition_splits($id);
 });
 
-$routes->get('/competitor/:id/results', function($id) {
-    ResultsController::competitor_results($id);
+$routes->post('/split', function() {
+    SplitController::store();
+});
+
+$routes->get('/participant/:id/splits/new', function($id) {
+    SplitController::create($id);
 });

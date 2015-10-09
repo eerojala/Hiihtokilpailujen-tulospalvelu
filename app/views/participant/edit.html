@@ -2,7 +2,8 @@
 {% block content %}
 {% import "macros/misc.html" as misc %}
 {% import "macros/forms.html" as forms %}
-    <h1>Muokkaa kilpailijan {{attributes.competitor_name}} numeroa kilpailussa {{attributes.competition_name}}</h1>  
-    {{misc.display_errors("#{errors}")}}
-    {{forms.participant_form("#{base_path}/participant/#{attributes.id}/edit", "#{competitions}", "#{competitors}", "#{attributes.number}")}}
+
+<h1>Muokkaa kilpailijan {{attributes.competitor_name}} numeroa kilpailussa {{attributes.competition_name}}</h1>  
+{{misc.display_errors("#{errors}")}}
+{{forms.participant_form("#{base_path}/participant/#{attributes.id}/edit", "#{competitions}", "#{competitors}", "#{attributes.number}")}}
 {% endblock %}

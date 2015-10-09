@@ -44,12 +44,12 @@ class Competition extends BaseModel {
         $rows = $query->fetchAll();
         $competitions = array();
         foreach ($rows as $row) {
-            $competitions[] = new Competition(Competition::getAttributes($row));
+            $competitions[] = new Competition(self::get_attributes($row));
         }
         return $competitions;
     }
     
-    private static function getAttributes($row) {
+    private static function get_attributes($row) {
         $attributes = array();
         $attributes['id'] = $row['id'];
         $attributes['name'] = $row['competitionname'];
@@ -65,7 +65,7 @@ class Competition extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            return new Competition(Competition::getAttributes($row));
+            return new Competition(Competition::get_attributes($row));
         }
         return null;
     }
@@ -100,7 +100,7 @@ class Competition extends BaseModel {
     public function validate_startsAt() {
         $errors = array();
         if (!BaseModel::dateTime_is_proper_format($this->startsAt)) {
-            $errors[] = 'Alkamisajankohdan tulee olla muotoa d.m.yyyy mi:s';
+            $errors[] = 'Alkamisajankohdan tulee olla muotoa d.m.yyyy h:mi';
         }
         return $errors;
     }
@@ -108,7 +108,7 @@ class Competition extends BaseModel {
     public function validate_endsAt() {
         $errors = array();
         if (!BaseModel::dateTime_is_proper_format($this->endsAt)) {
-            $errors[] = 'Päättymisajankohdan tulee olla muotoa d.m.yyyy mi:s';
+            $errors[] = 'Päättymisajankohdan tulee olla muotoa d.m.yyyy h:mi';
         }
         return $errors;
     }

@@ -8,8 +8,8 @@
     <a href="{{link}}" class="btn btn-success">{{text|default('Lisää')}}</a>
 {% endmacro %}
 
-{% macro edit_button_sm(link) %}
-    <a href="{{link}}" class="btn btn-default btn-sm">Muokkaa</a>
+{% macro edit_button_sm(link, text) %}
+    <a href="{{link}}" class="btn btn-default btn-sm">{{text|default('Muokkaa')}}</a>
 {% endmacro %}
 
 {% macro edit_button(link) %}

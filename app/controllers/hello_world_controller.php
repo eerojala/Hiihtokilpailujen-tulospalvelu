@@ -6,13 +6,9 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        $test = new Participant(array(
-            'competition_id' => '3',
-            'competitor_id' => 'dsfdfsfdsfdsfd',
-            'number' => 'fdsffddfsfds'
-        ));
-        $errors = $test->errors();
-        Kint::dump($errors);
+        Kint::dump(Split::latest_split(1));
+        Kint::dump(Split::latest_split(2));
+        Kint::dump(Split::latest_split(6));
     }
 
     public static function competition_edit() {
