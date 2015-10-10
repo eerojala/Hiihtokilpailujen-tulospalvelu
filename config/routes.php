@@ -152,3 +152,11 @@ $routes->post('/split', function() {
 $routes->get('/participant/:id/splits/new', function($id) {
     SplitController::create($id);
 });
+
+$routes->get('/participant/:id/splits/edit', function($id){
+    SplitController::edit($id);
+});
+
+$routes->post('/split/edit', function() {
+    SplitController::update();
+});

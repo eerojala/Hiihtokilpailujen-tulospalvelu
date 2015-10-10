@@ -1,4 +1,5 @@
 <?php
+
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -6,9 +7,7 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        Kint::dump(Split::latest_split(1));
-        Kint::dump(Split::latest_split(2));
-        Kint::dump(Split::latest_split(6));
+        Kint::dump(Split::latest_split(3));
     }
 
     public static function competition_edit() {

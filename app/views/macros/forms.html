@@ -80,18 +80,26 @@
 </form>
 {% endmacro %}
 
-{% macro split_form(action, attributes) %}
+{% macro split_form(action, attributes, edit, splits) %}
 <form method="post" action="{{action}}">
     <div class="form-group">
         <label>Monennes väliaika</label>
+        {% if edit == true %}
+        <select class="form-control" name="splitid">
+            {% for split in splits %}
+            <option value="{{split.id}}">{{split.split_number}}</option>
+            {% endfor %}
+        </select>
+        {% else %}
         <input type="text" name="splitnumber" class="form-control" value="{{attributes.split_number}}" readonly>
+        {% endif %}
     </div>
-    
+
     <div class="form-group">
         <label class="control-label">Aika</label>
         <input type="text" name="splittime" class="form-control" value="{{attributes.split_time}}">
     </div>
-    
+
     <div class="form-group">
         <input type="hidden" name="participantid" class="form-control" value="{{attributes.participant_id}}">
     </div>

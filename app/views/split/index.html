@@ -18,6 +18,7 @@
             <th>2. väliaika</th>
             <th>Lopullinen aika</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
 
@@ -30,6 +31,7 @@
             <td>{{second_splits["#{participant.id}"]}}</td>
             <td>{{final_splits["#{participant.id}"]}}</td>
             <th>{{buttons.edit_button_sm("#{base_path}/participant/#{participant.id}/splits/new", "Lisää")}}</th>
+            <th>{{buttons.edit_button_sm("#{base_path}/participant/#{participant.id}/splits/edit")}}</th>
         </tr>
         {% endfor %}
     </tbody>

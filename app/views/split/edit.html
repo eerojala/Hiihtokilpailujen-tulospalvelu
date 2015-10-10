@@ -5,7 +5,7 @@
 {% import "macros/forms.html" as forms %}
 
 
-<h1>Lisää kilpailuun {{participant.competition_name}} kilpailijalle {{participant.competitor_name}} väliaika</h1>
+<h1>Muokkaa kilpailijan {{participant.competitor_name}} väliaikoja kilpailussa {{participant.competition_name}}</h1>
 {{misc.display_errors("#{errors}")}}
-{{forms.split_form("#{base_path}/split", "#{attributes}", "#{edit}")}}
+{{forms.split_form("#{base_path}/split/edit", "#{attributes}", "#{edit}", "#{splits}")}}
 {% endblock %}

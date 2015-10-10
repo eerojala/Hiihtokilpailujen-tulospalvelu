@@ -26,6 +26,15 @@ class Split extends BaseModel {
         return $values;
     }
 
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Split '
+                . 'SET participantid = :participantid, splitnumber = :splitnumber, '
+                . 'splittime = :splittime WHERE id = :id');
+        $values = $this->query_values();
+        $values['id'] = $this->id;
+        $query->execute($values);
+    }
+
     public static function xth_competition_splits($competition_id, $split_number) {
         $query = DB::connection()->prepare('SELECT Split.participantid as participantid, '
                 . 'Split.splittime as splittime '
@@ -47,19 +56,78 @@ class Split extends BaseModel {
         return $splits;
     }
 
-    public static function latest_split($participant_id) {
+    public static function latest_split_number($participant_id) {
         $query = DB::connection()->prepare('SELECT MAX(splitnumber) '
                 . 'FROM Split where participantid = :id');
         $query->execute(array('id' => $participant_id));
         $row = $query->fetch();
         return $row['max'];
     }
-//    private static function get_attributes($row) {
-//        $attributes = array();
-//        $attributes['id'] = $row['id'];
-//        $attributes['participant_id'] = $row['participantid'];
-//        $attributes['split_number'] = $row['splitnumber'];
-//        $attributes['split_time'] = $row['splittime'];
-//        return $attributes;
-//    }
+
+    public static function latest_split($participant_id) {
+        $query = DB::connection()->prepare('SELECT * FROM SPLIT '
+                . 'WHERE participantid = :id '
+                . 'ORDER BY splitnumber DESC LIMIT 1');
+        $query->execute(array('id' => $participant_id));
+        $row = $query->fetch();
+        if ($row) {
+            return new Split(self::get_attributes($row));
+        }
+        return null;
+    }
+
+    public static function get_numbers_of_splits_done_so_far($participant_id) {
+        $latest_split = self::latest_split_number($participant_id);
+        $split_numbers = array();
+        for ($i = 1; $i <= $latest_split; $i++) {
+            $split_numbers[] = $i;
+        }
+        return $split_numbers;
+        // funktio palauttaa listan osallistujan suorittamien väliaikojen numeroista
+        // esim jos kilpailija on suorittanut 2 väliaikaa,
+        // palauttaa funktio listan joka koostuu numeroista 1 ja 2.
+    }
+
+    public static function participants_splits($participant_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Split '
+                . 'WHERE participantid = :participant_id');
+        $query->execute(array('participant_id' => $participant_id));
+        $rows = $query->fetchAll();
+        $splits = array();
+        foreach ($rows as $row) {
+            $splits[] = new Split(self::get_attributes($row));
+        }
+        return $splits;
+    }
+
+    private static function get_attributes($row) {
+        $attributes = array();
+        $attributes['id'] = $row['id'];
+        $attributes['participant_id'] = $row['participantid'];
+        $attributes['split_number'] = $row['splitnumber'];
+        $attributes['split_time'] = $row['splittime'];
+        return $attributes;
+    }
+    
+    public static function find($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Split WHERE id = :id');
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
+        
+        if ($row) {
+            return new Split(self::get_attributes($row));
+        }
+        return null;
+    }
+
+    public function validate_split_time() {
+        $errors = array();
+
+        if (!self::interval_is_proper_format($this->split_time)) {
+            $errors[] = 'Väliajan tulee tulee olla millisekuntien tarkkuudella '
+                    . 'muotoa hh:mi:ss.ms, esim 00:00:00.000';
+        }
+        return $errors;
+    }
+
 }
