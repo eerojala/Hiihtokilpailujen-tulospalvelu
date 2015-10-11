@@ -2,18 +2,18 @@
 
 class Competition extends BaseModel {
 
-    public $id, $name, $location, $startsAt, $endsAt;
+    public $id, $name, $location, $split_amount, $starts_at, $ends_at;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_name', 'validate_location',
-            'validate_startsAt', 'validate_endsAt');
+            'validate_starts_at', 'validate_ends_at');
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Competition (competitionname,'
-                . 'location, startsat, endsat) VALUES (:competitionname,'
-                . ':location, :startsat, :endsat) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Competition (competitionname, '
+                . 'location, splitamount, startsat, endsat) VALUES (:competitionname, '
+                . ':location, :split_amount, :starts_at, :ends_at) RETURNING id');
         $query->execute($this->queryValues());
         $row = $query->fetch();
         $this->id = $row['id'];
@@ -23,15 +23,16 @@ class Competition extends BaseModel {
         $values = array();
         $values['competitionname'] = $this->name;
         $values['location'] = $this->location;
-        $values['startsat'] = $this->startsAt;
-        $values['endsat'] = $this->endsAt;
+        $values['split_amount'] = $this->split_amount;
+        $values['starts_at'] = $this->starts_at;
+        $values['ends_at'] = $this->ends_at;
         return $values;
     }
 
     public function update() {
         $query = DB::connection()->prepare('UPDATE Competition '
                 . 'SET competitionname = :competitionname, location = :location, '
-                . 'startsat = :startsat, endsat= :endsat '
+                . 'splitamount = :split_amount, startsat = :starts_at, endsat= :ends_at '
                 . 'WHERE id = :id');
         $queryValues = $this->queryValues();
         $queryValues['id'] = $this->id;
@@ -54,8 +55,9 @@ class Competition extends BaseModel {
         $attributes['id'] = $row['id'];
         $attributes['name'] = $row['competitionname'];
         $attributes['location'] = $row['location'];
-        $attributes['startsAt'] = date_format(new DateTime($row['startsat']), "d.m.Y G:i");
-        $attributes['endsAt'] = date_format(new DateTime($row['endsat']), "d.m.Y G:i");
+        $attributes['split_amount'] = $row['splitamount'];
+        $attributes['starts_at'] = date_format(new DateTime($row['startsat']), "d.m.Y G:i");
+        $attributes['ends_at'] = date_format(new DateTime($row['endsat']), "d.m.Y G:i");
         return $attributes;
     }
     
@@ -97,17 +99,17 @@ class Competition extends BaseModel {
         return $errors;
     }
 
-    public function validate_startsAt() {
+    public function validate_starts_at() {
         $errors = array();
-        if (!BaseModel::dateTime_is_proper_format($this->startsAt)) {
+        if (!BaseModel::dateTime_is_proper_format($this->starts_at)) {
             $errors[] = 'Alkamisajankohdan tulee olla muotoa d.m.yyyy h:mi';
         }
         return $errors;
     }
 
-    public function validate_endsAt() {
+    public function validate_ends_at() {
         $errors = array();
-        if (!BaseModel::dateTime_is_proper_format($this->endsAt)) {
+        if (!BaseModel::dateTime_is_proper_format($this->ends_at)) {
             $errors[] = 'Päättymisajankohdan tulee olla muotoa d.m.yyyy h:mi';
         }
         return $errors;

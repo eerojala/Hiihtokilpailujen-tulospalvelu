@@ -2,7 +2,7 @@
 
 class Participant extends BaseModel {
 
-    public $id, $competition_id, $competition_name, $competitor_id, $competitor_name, 
+    public $id, $competition_id, $competition_name, $competitor_id, $competitor_name,
             $number, $standing;
 
     public function __construct($attributes) {
@@ -28,7 +28,7 @@ class Participant extends BaseModel {
         $values['participantnumber'] = $this->number;
         return $values;
     }
-    
+
     public function update() {
         $query = DB::connection()->prepare("UPDATE Participant "
                 . "SET competitionid = :competitionid, competitorid = :competitorid, "
@@ -66,12 +66,12 @@ class Participant extends BaseModel {
         $attributes['standing'] = $row['standing'];
         return $attributes;
     }
-    
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Participant WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
-        
+
         if ($row) {
             return new Participant(self::get_attributes($row));
         }
@@ -84,18 +84,18 @@ class Participant extends BaseModel {
         $query->execute(array('compid' => $competition_id));
         return self::participant_list($query);
     }
-    
+
     public static function get_competitor_participations($competitor_id) {
         $query = DB::connection()->prepare(''
                 . 'SELECT * FROM Participant WHERE competitorid = :compid');
         $query->execute(array('compid' => $competitor_id));
         return self::participant_list($query);
     }
-    
+
     private static function get_competition_participants_competitor_ids($competition_id) {
         $participants = self::get_competition_participants($competition_id);
         $competitor_ids = array();
-        foreach($participants as $participant) {
+        foreach ($participants as $participant) {
             $competitor_ids[] = $participant->competitor_id;
         }
         return $competitor_ids;
@@ -109,7 +109,32 @@ class Participant extends BaseModel {
         }
         return $numbers;
     }
-    
+
+    public static function update_competition_standings($competition_id) {
+        $participant_ids = self::get_participant_ids_ordered_by_split_times($competition_id, 3);
+        $standing = 1;
+        foreach ($participant_ids as $id) {
+            $participant = self::find($id);
+            $participant->standing = $standing;
+            $participant->update();
+            $standing++;
+        }
+    }
+
+    private static function get_participant_ids_ordered_by_split_times($competition_id, $split_number) {
+        $query = DB::connection()->prepare('SELECT Participant.id FROM Participant '
+                . 'INNER JOIN Split ON Participant.id = Split.participantid '
+                . 'AND Split.splitnumber = :number AND Participant.competitionid = :id '
+                . 'ORDER BY Split.splittime ASC');
+        $query->execute(array('number' => $split_number, 'id' => $competition_id));
+        $rows = $query->fetchAll();
+        $ids = array();
+        foreach ($rows as $row) {
+            $ids[] = $row['id'];
+        }
+        return $ids;
+    }
+
     public static function delete($id) {
         $query = DB::connection()->prepare('DELETE FROM Participant WHERE id = :id');
         $query->execute(array('id' => $id));
@@ -129,7 +154,7 @@ class Participant extends BaseModel {
 
     public function validate_competitor_id() {
         $errors = array();
-        
+
         if ($this->competitor_id == 0) {
             $errors[] = 'Kilpailija id:n pitää olla nollaa suurempi kokonaisluku';
         }
@@ -138,13 +163,13 @@ class Participant extends BaseModel {
             $errors[] = 'Annettua kilpaiija id:tä ei löytynyt tietokannasta';
         } else if (in_array($this->competitor_id, Participant::get_competition_participants_competitor_ids($this->competition_id))) {
             $errors[] = 'Tämä kilpailija on jo lisätty tähän kilpailuun.';
-        }     
+        }
         return $errors;
     }
 
     public function validate_number() {
         $errors = array();
-        
+
         if ($this->number <= 0 || $this->number >= 10000) {
             $errors[] = 'Numeron tulee olla kokonaisluku väliltä 1-9999';
         } else if (in_array($this->number, Participant::get_competition_participant_numbers($this->competition_id))) {

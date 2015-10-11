@@ -35,18 +35,25 @@ class Split extends BaseModel {
         $query->execute($values);
     }
 
-    public static function xth_competition_splits($competition_id, $split_number) {
-        $query = DB::connection()->prepare('SELECT Split.participantid as participantid, '
-                . 'Split.splittime as splittime '
+    
+    // returns an array of Xth splits from a competition where the array key is
+    // the participants id and the value is the time of the split.
+    public static function get_xth_competition_splits_by_participant_id($competition_id, $split_number) {
+        $rows = self::get_xth_competition_splits($competition_id, $split_number);
+        return Split::splits_by_participant_id($rows);
+    }
+    
+    private static function get_xth_competition_splits($competition_id, $split_number) {
+        $query = DB::connection()->prepare('SELECT Split.participantid, Split.splittime '
                 . 'FROM Split INNER JOIN Participant '
                 . 'ON Split.participantid = Participant.id AND '
-                . 'Participant.competitionid = :compid AND Split.splitnumber = :number');
+                . 'Participant.competitionid = :compid AND Split.splitnumber = :number '
+                . 'Order by splittime ASC');
         $query->execute(array('compid' => $competition_id, 'number' => $split_number));
-        $rows = $query->fetchAll();
-        return Split::splits_by_participantid($rows);
+        return $query->fetchAll();
     }
 
-    private static function splits_by_participantid($rows) {
+    private static function splits_by_participant_id($rows) {
         $splits = array();
         foreach ($rows as $row) {
             $participant_id = $row['participantid'];
@@ -55,6 +62,23 @@ class Split extends BaseModel {
         }
         return $splits;
     }
+//    
+//    // returns an array of Xth splits from a competition where the array key is
+//    // the time of the split and the value is the participants id.
+//    public static function get_xth_competition_splits_by_split_time($competition_id, $split_number) {
+//        $rows = self::get_xth_competition_splits($competition_id, $split_number);
+//        return self::participant_ids_by_splits($rows);
+//    }
+    
+//    private static function participant_ids_by_splits($rows) {
+//        $splits = array();
+//        foreach($rows as $row) {
+//            $participant_id = $row['participantid'];
+//            $split_time = $row['splittime'];
+//            $splits[$split_time] = $participant_id;
+//        }
+//        return $splits;
+//    }
 
     public static function latest_split_number($participant_id) {
         $query = DB::connection()->prepare('SELECT MAX(splitnumber) '
@@ -108,25 +132,26 @@ class Split extends BaseModel {
         $attributes['split_time'] = $row['splittime'];
         return $attributes;
     }
-    
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Split WHERE id = :id');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
-        
+
         if ($row) {
             return new Split(self::get_attributes($row));
         }
         return null;
     }
-
+    
     public function validate_split_time() {
         $errors = array();
 
         if (!self::interval_is_proper_format($this->split_time)) {
-            $errors[] = 'Väliajan tulee tulee olla millisekuntien tarkkuudella '
+            $errors[] = 'Väliajan tulee olla millisekuntien tarkkuudella '
                     . 'muotoa hh:mi:ss.ms, esim 00:00:00.000';
         }
+
         return $errors;
     }
 

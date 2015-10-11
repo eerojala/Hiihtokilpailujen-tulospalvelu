@@ -4,9 +4,9 @@ class SplitController extends BaseController {
 
     public static function competition_splits($competition_id) {
         $participants = Participant::get_competition_participants($competition_id);
-        $first_splits = Split::xth_competition_splits($competition_id, 1);
-        $second_splits = Split::xth_competition_splits($competition_id, 2);
-        $final_splits = Split::xth_competition_splits($competition_id, 3);
+        $first_splits = Split::get_xth_competition_splits_by_participant_id($competition_id, 1);
+        $second_splits = Split::get_xth_competition_splits_by_participant_id($competition_id, 2);
+        $final_splits = Split::get_xth_competition_splits_by_participant_id($competition_id, 3);
         $competition = Competition::find($competition_id);
         self::index_view($participants, $first_splits, $second_splits, $final_splits, $competition, '');
     }
@@ -56,6 +56,7 @@ class SplitController extends BaseController {
 
         if (count($errors) == 0) {
             $split->save();
+            Participant::update_competition_standings($competition_id);
             Redirect::to('/competition/' . $competition_id . '/splits', array(
                 'message' => 'Väliaika lisätty.'
             ));
@@ -106,6 +107,7 @@ class SplitController extends BaseController {
         
         if(count($errors) == 0) {
             $split->update();
+            Participant::update_competition_standings($competition_id);
             Redirect::to('/competition/' . $competition_id . '/splits', array(
                 'message' => 'Väliaikaa muokattu.'
             ));

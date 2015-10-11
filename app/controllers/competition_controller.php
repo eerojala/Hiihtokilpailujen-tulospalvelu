@@ -36,8 +36,9 @@ class CompetitionController extends BaseController {
         $attributes = array(
             'name' => $params['name'],
             'location' => $params['location'],
-            'startsAt' => $params['startsAt'],
-            'endsAt' => $params['endsAt']
+            'split_amount' => $params['split_amount'],
+            'starts_at' => $params['starts_at'],
+            'ends_at' => $params['ends_at']
         );
         return $attributes;
     }

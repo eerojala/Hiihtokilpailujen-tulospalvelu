@@ -27,8 +27,8 @@
         <tr>
             <td><a href="{{base_path}}/competition/{{competition.id}}">{{competition.name}}</td>
             <td>{{competition.location}}</td>
-            <td>{{competition.startsAt}}</td>
-            <td>{{competition.endsAt}}</td>
+            <td>{{competition.starts_at}}</td>
+            <td>{{competition.ends_at}}</td>
             <th>{{buttons.edit_button_sm("#{base_path}/competition/#{competition.id}/edit")}}</th>
         </tr>
         {% endfor %}

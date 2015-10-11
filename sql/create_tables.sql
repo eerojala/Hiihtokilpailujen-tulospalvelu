@@ -1,22 +1,23 @@
 CREATE TABLE Operator(
     id SERIAL PRIMARY KEY,
-    username varchar(50) NOT null,
-    password varchar(50) NOT null
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Competitor(
     id SERIAL PRIMARY KEY,
-    competitorName varchar(50) NOT null,
+    competitorName VARCHAR(50) NOT NULL,
     birthdate DATE,
-    country varchar(30) NOT null
+    country VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Competition(
     id SERIAL PRIMARY KEY,
-    competitionName varchar(100) NOT null,
-    location varchar(100) NOT null,
-    startsAt timestamp,
-    endsAt timestamp
+    competitionName VARCHAR(100) NOT NULL,
+    location VARCHAR(100) NOT NULL,
+    splitAmount INTEGER NOT NULL,
+    startsAt TIMESTAMP,
+    endsAt TIMESTAMP
 );
 
 CREATE TABLE Participant(
@@ -30,6 +31,6 @@ CREATE TABLE Participant(
 CREATE TABLE Split(
     id SERIAL PRIMARY KEY,
     participantId INTEGER REFERENCES Participant(id) ON DELETE CASCADE,
-    splitNumber INTEGER NOT null,
-    splitTime INTERVAL NOT null
+    splitNumber INTEGER NOT NULL,
+    splitTime INTERVAL NOT NULL
 );
