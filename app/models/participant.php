@@ -40,12 +40,6 @@ class Participant extends BaseModel {
         $query->execute($queryValues);
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare("SELECT * FROM Participant");
-        $query->execute();
-        return self::participant_list($query);
-    }
-
     private static function participant_list($query) {
         $rows = $query->fetchAll();
         $participants = array();
@@ -79,17 +73,19 @@ class Participant extends BaseModel {
     }
 
     public static function get_competition_participants($competition_id) {
-        $query = DB::connection()->prepare(
-                "SELECT * FROM Participant WHERE competitionid = :compid");
-        $query->execute(array('compid' => $competition_id));
+        return self::get_participants('competitionid', $competition_id, 'participantnumber');
+    }
+    
+    private static function get_participants($criteria_column, $criteria, $order_column) {
+        $query = DB::connection()->prepare('SELECT * FROM Participant '
+                . 'WHERE ' .$criteria_column. '= :id '
+                . 'ORDER BY ' .$order_column. ' ASC');
+        $query->execute(array('id' => $criteria));
         return self::participant_list($query);
     }
-
+    
     public static function get_competitor_participations($competitor_id) {
-        $query = DB::connection()->prepare(''
-                . 'SELECT * FROM Participant WHERE competitorid = :compid');
-        $query->execute(array('compid' => $competitor_id));
-        return self::participant_list($query);
+        return self::get_participants('competitorid', $competitor_id, 'competitionid');
     }
 
     private static function get_competition_participants_competitor_ids($competition_id) {
@@ -136,13 +132,13 @@ class Participant extends BaseModel {
         }
         return $ids;
     }
-    
+
     public static function nullify_competition_standings($competition_id) {
         $query = DB::connection()->prepare('UPDATE Participant '
                 . 'SET standing = null WHERE competitionid = :id');
         $query->execute(array('id' => $competition_id));
     }
-    
+
     public static function nullify_and_update_competition_standings($competition_id) {
         self::nullify_competition_standings($competition_id);
         self::update_competition_standings($competition_id);
@@ -155,11 +151,11 @@ class Participant extends BaseModel {
 
     public function validate_competition_id() {
         $errors = array();
-        if ($this->competition_id == 0) {
+        if ($this->competition_id <= 0) {
             $errors[] = 'Kilpailu id:n pitää olla nollaa suurempi kokonaisluku';
         }
 
-        if (!in_array($this->competition_id, BaseModel::get_every_id('Competition'))) {
+        if (!in_array($this->competition_id, self::get_every_id('Competition'))) {
             $errors[] = 'Annettua kilpailu id:tä ei löytynyt tietokannasta';
         }
         return $errors;
@@ -168,11 +164,11 @@ class Participant extends BaseModel {
     public function validate_competitor_id() {
         $errors = array();
 
-        if ($this->competitor_id == 0) {
+        if ($this->competitor_id <= 0) {
             $errors[] = 'Kilpailija id:n pitää olla nollaa suurempi kokonaisluku';
         }
 
-        if (!in_array($this->competitor_id, BaseModel::get_every_id('Competitor'))) {
+        if (!in_array($this->competitor_id, self::get_every_id('Competitor'))) {
             $errors[] = 'Annettua kilpaiija id:tä ei löytynyt tietokannasta';
         } else if (in_array($this->competitor_id, Participant::get_competition_participants_competitor_ids($this->competition_id))) {
             $errors[] = 'Tämä kilpailija on jo lisätty tähän kilpailuun.';

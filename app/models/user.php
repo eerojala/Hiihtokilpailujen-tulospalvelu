@@ -2,14 +2,26 @@
 
 class User extends BaseModel {
 
-    public $id, $username, $password;
+    public $id, $username, $password, $type;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
     }
+    
+    public function has_rights_to_competition_splits($competition_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Recorder '
+                . 'WHERE competitionid = :compid AND userid = :userid');
+        $query->execute(array('compid' => $competition_id, 'userid' => $this->id));
+        if ($query->fetch()) {
+            return true;
+        }
+        return false;
+    }
 
     public static function authenticate($username, $password) {
-        $query = DB::connection()->prepare('SELECT * FROM Operator WHERE username = :username AND password = :password LIMIT 1');
+        $query = DB::connection()->prepare(
+                'SELECT * FROM Operator WHERE username = :username '
+                . 'AND password = :password LIMIT 1');
         $query->execute(array('username' => $username, 'password' => $password));
         $row = $query->fetch();
         if ($row) {
@@ -22,7 +34,8 @@ class User extends BaseModel {
         return array(
             'id' => $row['id'],
             'username' => $row['username'],
-            'password' => $row['password']
+            'password' => $row['password'],
+            'type' => $row['usertype']
         );
     }
 

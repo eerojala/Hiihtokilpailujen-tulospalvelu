@@ -28,7 +28,7 @@
       return $errors;
     }
     
-    public static function get_every_id($table_name) {
+    protected static function get_every_id($table_name) {
         $query = DB::connection()->prepare('SELECT id FROM ' . $table_name);
         $query->execute();
         $rows = $query->fetchAll();
@@ -39,18 +39,13 @@
         return $ids;
     }
     
-//    public static function validate_string($string, $minLength, $maxLength) {
-//        $errors = array();
-//        if ($string == '' || $string == null) {
-//            $errors[] = 'Merkkijono ei saa olla tyhjä!';
-//        }
-//        
-//        if (strlen($string) > $maxLength || strlen($string < $minLength)) {
-//            $errors[] = 'Merkkijonon tulee olla vähintään ' + $minLength +
-//                    ' merkkiä pitkä ja enintään ' + $maxLength + ' merkkiä pitkä';
-//        }
-//        return $errors;
-//    }
+    protected static function default_all($table, $order_column, $criteria, $search) {
+        $query = DB::connection()->prepare(
+                'SELECT * FROM ' .$table. ' WHERE ' .$criteria. 
+                ' ORDER BY ' .$order_column. ' ASC');
+        $query->execute(array('search' => '%' . $search . '%'));
+        return $query->fetchAll();
+    }
     
     public static function string_not_null_or_empty($string) {
         if ($string == '' || $string == null) {

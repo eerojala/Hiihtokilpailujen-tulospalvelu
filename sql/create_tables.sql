@@ -1,7 +1,8 @@
 CREATE TABLE Operator(
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL
+    password VARCHAR(50) NOT NULL,
+    usertype VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Competitor(
@@ -18,6 +19,12 @@ CREATE TABLE Competition(
     splitAmount INTEGER NOT NULL,
     startsAt TIMESTAMP,
     endsAt TIMESTAMP
+);
+
+CREATE TABLE Recorder(
+    id SERIAL PRIMARY KEY,
+    competitionId INTEGER REFERENCES Competition(id) ON DELETE CASCADE,
+    userId INTEGER REFERENCES Operator(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Participant(

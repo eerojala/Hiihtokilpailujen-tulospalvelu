@@ -3,7 +3,14 @@
 class CompetitorController extends BaseController {
 
     public static function index() {
-        $competitors = Competitor::all();
+        $params = $_GET;
+        $name = '';
+        
+        if (isset($params['name'])) {
+            $name = $params['name'];
+        }
+        
+        $competitors = Competitor::all($name);
         View::make('competitor/index.html', array('competitors' => $competitors));
     }
 
@@ -13,12 +20,12 @@ class CompetitorController extends BaseController {
     }
 
     public static function create() {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         View::make('competitor/new.html');
     }
 
     public static function store() {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $competitor = new Competitor($attributes);
         $errors = $competitor->errors();
@@ -42,13 +49,13 @@ class CompetitorController extends BaseController {
     }
 
     public static function edit($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $competitor = Competitor::find($id);
         View::make('competitor/edit.html', array('attributes' => $competitor));
     }
 
     public static function update($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $attributes['id'] = $id;
         $competitor = new Competitor($attributes);
@@ -63,7 +70,7 @@ class CompetitorController extends BaseController {
     }
 
     public static function destroy($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         Competitor::delete($id);
         Redirect::to('/competitor', array('message' => 'Kilpailija on poistettu onnistuneesti!'));
     }

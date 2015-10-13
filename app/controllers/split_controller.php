@@ -18,11 +18,11 @@ class SplitController extends BaseController {
     }
 
     public static function create($participant_id) {
-        self::check_logged_in();
-        $latest_split_number = Split::get_latest_split_number($participant_id);
         $participant = Participant::find($participant_id);
+        self::check_admin_or_recorder_logged_in($participant->competition_id);
+        $latest_split_number = Split::get_latest_split_number($participant_id);
         $competition = Competition::find($participant->competition_id);
-
+        
         if ($latest_split_number == null) {
             self::create_xth_split(1, $participant);
         } else if ($latest_split_number == $competition->split_amount) {
@@ -47,10 +47,10 @@ class SplitController extends BaseController {
     }
 
     public static function store() {
-        self::check_logged_in();
         $attributes = self::get_attributes();
         $split = new Split($attributes);
         $participant = Participant::find($split->participant_id);
+        self::check_admin_or_recorder_logged_in($participant->competition_id);
         $competition_id = Competition::find($participant->competition_id)->id;
         $errors = $split->validate_split_time();
 
@@ -81,8 +81,8 @@ class SplitController extends BaseController {
     }
 
     public static function edit($participant_id) {
-        self::check_logged_in();
         $participant = Participant::find($participant_id);
+        self::check_admin_or_recorder_logged_in($participant->competition_id);
         $attributes = array('participant_id' => $participant_id);
         $splits = Split::participants_splits($participant_id);
         self::edit_view($participant, $attributes, $splits, array());
@@ -96,12 +96,13 @@ class SplitController extends BaseController {
     }
 
     public static function update() {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $split_number = Split::find($attributes['id'])->split_number;
         $attributes['split_number'] = $split_number;
         $split = new Split($attributes);
         $participant = Participant::find($split->participant_id);
+        self::check_admin_or_recorder_logged_in($participant->competition_id);
         $competition_id = Competition::find($participant->competition_id)->id;
         $errors = $split->validate_split_time();
 

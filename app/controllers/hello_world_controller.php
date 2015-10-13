@@ -7,7 +7,9 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        Kint::dump(Split::get_every_competition_split(1));
+        $user = User::find(2);
+        Kint::dump($user->has_rights_to_competition_splits(1));
+        Kint::dump($user->has_rights_to_competition_splits(2));
     }
 
     public static function competition_edit() {

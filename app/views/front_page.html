@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 {% import "macros/misc.html" as misc %}
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/forms.html" as forms %}
+
 {{misc.display_message("#{message}")}};
 <h1>Hiihtokilpailujen tulospalvelu</h1>
+{{forms.search_form("#{base_path}/competition", "Etsi kilpailu")}}
+<p></p>
+{{forms.search_Form("#{base_path}/competitor", "Etsi kilpailija")}}
 {% endblock %}

@@ -39,11 +39,10 @@ class Competition extends BaseModel {
         $query->execute($queryValues);
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Competition');
-        $query->execute();
-        $rows = $query->fetchAll();
-        $competitions = array();
+    public static function all($name) {
+        $rows = self::default_all(
+        'Competition', 'competitionname', 'competitionname ILIKE :search', $name);
+                $competitions = array();
         foreach ($rows as $row) {
             $competitions[] = new Competition(self::get_attributes($row));
         }

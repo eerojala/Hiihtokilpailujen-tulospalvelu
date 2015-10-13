@@ -1,5 +1,5 @@
-INSERT INTO Operator (username, password) VALUES ('admin', '12345');
-INSERT INTO Operator (username, password) VALUES ('joq', '67879');
+INSERT INTO Operator (username, password, usertype) VALUES ('admin', '12345', 'admin');
+INSERT INTO Operator (username, password, usertype) VALUES ('test', 'qwerty', 'recorder');
 
 INSERT INTO Competitor (competitorName, birthdate, country) VALUES ('Testikilpailija 1', 
 DATE '1994-11-22', 'Suomi');
@@ -11,6 +11,8 @@ VALUES ('Testikilpailu 1', 'Espoo, Suomi', 5, TIMESTAMP '2015-09-12 12:00:00', T
 
 INSERT INTO Competition (competitionName, location, splitAmount, startsAt, endsAt) 
 VALUES ('Testikilpailu 2', 'Mesta, Suomi', 3, TIMESTAMP '1999-12-31 23:00:00', TIMESTAMP '2000-01-01 01:00:00');
+
+INSERT INTO Recorder(competitionId, userId) VALUES (1, 2);
 
 INSERT INTO Participant (competitionId, competitorId, participantNumber) VALUES(
     (

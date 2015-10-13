@@ -21,7 +21,7 @@ class ParticipantController extends BaseController {
     }
 
     public static function create($competition_id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         self::creation_view(
                 array(Competition::find($competition_id)), Competitor::all(), true, array());
     }
@@ -34,7 +34,7 @@ class ParticipantController extends BaseController {
     }
 
     public static function store() {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $participant = new Participant($attributes);
         $errors = $participant->errors();
@@ -58,7 +58,7 @@ class ParticipantController extends BaseController {
     }
 
     public static function edit($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $participant = Participant::find($id);
         self::edit_view(
                 array(Competition::find($participant->competition_id)), 
@@ -73,7 +73,7 @@ class ParticipantController extends BaseController {
     }
 
     public static function update($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $attributes['id'] = $id;
         $attributes['competition_name'] = Competition::find($attributes['competition_id'])->name;
@@ -94,9 +94,10 @@ class ParticipantController extends BaseController {
     }
 
     public static function destroy($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $participant = Participant::find($id);
         Participant::delete($id);
+        Participant::nullify_and_update_competition_standings($participant->competition_id);
         Redirect::to('/competition/' . $participant->competition_id . '/participants', array(
             'message' => 'Kilpailija ' . $participant->competitor_name .
             ' poistettiin onnistuneesti kilpailusta ' . $participant->competition_name

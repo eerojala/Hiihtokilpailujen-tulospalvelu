@@ -35,10 +35,9 @@ class Competitor extends BaseModel {
         $query->execute($queryValues);
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Competitor');
-        $query->execute();
-        $rows = $query->fetchAll();
+    public static function all($name) {
+        $rows = self::default_all(
+                'Competitor', 'competitorname', 'competitorname ILIKE :search', $name);
         $competitors = array();
         foreach ($rows as $row) {
             $competitors[] = new Competitor(self::get_attributes($row));

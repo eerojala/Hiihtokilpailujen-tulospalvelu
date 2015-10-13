@@ -3,7 +3,14 @@
 class CompetitionController extends BaseController {
 
     public static function index() {
-        $competitions = Competition::all();
+        $params = $_GET;
+        $name = '';
+        
+        if(isset($params['name'])) {
+            $name = $params['name'];
+        }
+        
+        $competitions = Competition::all($name);
         View::make('competition/index.html', array('competitions' => $competitions));
     }
 
@@ -13,12 +20,12 @@ class CompetitionController extends BaseController {
     }
 
     public static function create() {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         View::make('competition/new.html');
     }
 
     public static function store() {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $competition = new Competition($attributes);
         $errors = $competition->errors();
@@ -44,13 +51,13 @@ class CompetitionController extends BaseController {
     }
 
     public static function edit($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $competition = Competition::find($id);
         View::make('competition/edit.html', array('attributes' => $competition));
     }
 
     public static function update($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $attributes['id'] = $id;
         $competition = new Competition($attributes);
@@ -60,13 +67,13 @@ class CompetitionController extends BaseController {
             View::make('competition/edit.html', array('errors' => $errors, 'attributes' => $attributes));
         } else {
             $competition->update();
-            Participant::nullify_and_update_competition_standings($competition_id);
+            Participant::nullify_and_update_competition_standings($id);
             Redirect::to('/competition/' . $competition->id, array('message' => 'Kilpailua muokattu onnistuneesti!'));
         }
     }
 
     public static function destroy($id) {
-        self::check_logged_in();
+        self::check_admin_logged_in();
         Competition::delete($id);
         Redirect::to('/competition', array('message' => 'Kilpailu on poistettu onnistuneesti!'));
     }
