@@ -7,7 +7,7 @@ class Competition extends BaseModel {
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_name', 'validate_location',
-            'validate_starts_at', 'validate_ends_at');
+            'validate_split_amount', 'validate_starts_at', 'validate_ends_at');
     }
 
     public function save() {
@@ -18,7 +18,7 @@ class Competition extends BaseModel {
         $row = $query->fetch();
         $this->id = $row['id'];
     }
-    
+
     private function queryValues() {
         $values = array();
         $values['competitionname'] = $this->name;
@@ -49,7 +49,7 @@ class Competition extends BaseModel {
         }
         return $competitions;
     }
-    
+
     private static function get_attributes($row) {
         $attributes = array();
         $attributes['id'] = $row['id'];
@@ -60,7 +60,7 @@ class Competition extends BaseModel {
         $attributes['ends_at'] = date_format(new DateTime($row['endsat']), "d.m.Y G:i");
         return $attributes;
     }
-    
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Competition WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
@@ -71,7 +71,7 @@ class Competition extends BaseModel {
         }
         return null;
     }
-    
+
     public static function delete($id) {
         $query = DB::connection()->prepare('DELETE FROM Competition WHERE id = :id');
         $query->execute(array('id' => $id));
@@ -99,9 +99,17 @@ class Competition extends BaseModel {
         return $errors;
     }
 
+    public function validate_split_amount() {
+        $errors = array();
+        if (!self::integer_in_range($this->split_amount, 1, 10)) {
+            $errors[] = 'Väliaikojen lukumäärän tulee olla välillä 1-10';
+        }
+        return $errors;
+    }
+
     public function validate_starts_at() {
         $errors = array();
-        if (!BaseModel::dateTime_is_proper_format($this->starts_at)) {
+        if (!self::dateTime_is_proper_format($this->starts_at)) {
             $errors[] = 'Alkamisajankohdan tulee olla muotoa d.m.yyyy h:mi';
         }
         return $errors;
@@ -109,7 +117,7 @@ class Competition extends BaseModel {
 
     public function validate_ends_at() {
         $errors = array();
-        if (!BaseModel::dateTime_is_proper_format($this->ends_at)) {
+        if (!self::dateTime_is_proper_format($this->ends_at)) {
             $errors[] = 'Päättymisajankohdan tulee olla muotoa d.m.yyyy h:mi';
         }
         return $errors;

@@ -35,52 +35,27 @@ class Split extends BaseModel {
         $query->execute($values);
     }
 
-    
-    // returns an array of Xth splits from a competition where the array key is
-    // the participants id and the value is the time of the split.
-    public static function get_xth_competition_splits_by_participant_id($competition_id, $split_number) {
-        $rows = self::get_xth_competition_splits($competition_id, $split_number);
-        return Split::splits_by_participant_id($rows);
-    }
-    
-    private static function get_xth_competition_splits($competition_id, $split_number) {
-        $query = DB::connection()->prepare('SELECT Split.participantid, Split.splittime '
+    public static function get_every_competition_split($competition_id) {
+        $query = DB::connection()->prepare(
+                'SELECT Split.participantid, Split.splitnumber, Split.splittime '
                 . 'FROM Split INNER JOIN Participant '
-                . 'ON Split.participantid = Participant.id AND '
-                . 'Participant.competitionid = :compid AND Split.splitnumber = :number '
-                . 'Order by splittime ASC');
-        $query->execute(array('compid' => $competition_id, 'number' => $split_number));
-        return $query->fetchAll();
+                . 'ON Split.participantid = Participant.id AND Participant.competitionid = :compid');
+        $query->execute(array('compid' => $competition_id));
+        return self::split_matrice($query->fetchAll());
     }
 
-    private static function splits_by_participant_id($rows) {
-        $splits = array();
+    private static function split_matrice($rows) {
+        $matrice = array();
         foreach ($rows as $row) {
             $participant_id = $row['participantid'];
+            $split_number = $row['splitnumber'];
             $split_time = $row['splittime'];
-            $splits[$participant_id] = $split_time;
+            $matrice[$participant_id][$split_number] = $split_time;
         }
-        return $splits;
+        return $matrice;
     }
-//    
-//    // returns an array of Xth splits from a competition where the array key is
-//    // the time of the split and the value is the participants id.
-//    public static function get_xth_competition_splits_by_split_time($competition_id, $split_number) {
-//        $rows = self::get_xth_competition_splits($competition_id, $split_number);
-//        return self::participant_ids_by_splits($rows);
-//    }
-    
-//    private static function participant_ids_by_splits($rows) {
-//        $splits = array();
-//        foreach($rows as $row) {
-//            $participant_id = $row['participantid'];
-//            $split_time = $row['splittime'];
-//            $splits[$split_time] = $participant_id;
-//        }
-//        return $splits;
-//    }
 
-    public static function latest_split_number($participant_id) {
+    public static function get_latest_split_number($participant_id) {
         $query = DB::connection()->prepare('SELECT MAX(splitnumber) '
                 . 'FROM Split where participantid = :id');
         $query->execute(array('id' => $participant_id));
@@ -88,7 +63,7 @@ class Split extends BaseModel {
         return $row['max'];
     }
 
-    public static function latest_split($participant_id) {
+    public static function get_latest_split($participant_id) {
         $query = DB::connection()->prepare('SELECT * FROM SPLIT '
                 . 'WHERE participantid = :id '
                 . 'ORDER BY splitnumber DESC LIMIT 1');
@@ -101,7 +76,7 @@ class Split extends BaseModel {
     }
 
     public static function get_numbers_of_splits_done_so_far($participant_id) {
-        $latest_split = self::latest_split_number($participant_id);
+        $latest_split = self::get_latest_split_number($participant_id);
         $split_numbers = array();
         for ($i = 1; $i <= $latest_split; $i++) {
             $split_numbers[] = $i;
@@ -143,7 +118,7 @@ class Split extends BaseModel {
         }
         return null;
     }
-    
+
     public function validate_split_time() {
         $errors = array();
 

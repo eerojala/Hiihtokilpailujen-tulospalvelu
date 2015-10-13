@@ -14,8 +14,9 @@
         <tr>
             <th>Kilpailijan nimi</th>
             <th>Kilpailijan numero</th>
-            <th>1. väliaika</th>
-            <th>2. väliaika</th>
+            {% for i in 1.."#{competition.split_amount}" - 1 %}
+            <th>{{i}}. väliaika</th>
+            {% endfor %}
             <th>Lopullinen aika</th>
             <th></th>
             <th></th>
@@ -27,9 +28,9 @@
         <tr>
             <td><a href="{{base_path}}/competitor/{{participant.competitor_id}}">{{participant.competitor_name}}</a></td>
             <td>{{participant.number}}</td>
-            <td>{{first_splits["#{participant.id}"]}}</td>
-            <td>{{second_splits["#{participant.id}"]}}</td>
-            <td>{{final_splits["#{participant.id}"]}}</td>
+            {% for i in 1.."#{competition.split_amount}" %}
+            <td>{{splits["#{participant.id}"]["#{i}"]}}</td>
+            {% endfor %}
             <th>{{buttons.edit_button_sm("#{base_path}/participant/#{participant.id}/splits/new", "Lisää")}}</th>
             <th>{{buttons.edit_button_sm("#{base_path}/participant/#{participant.id}/splits/edit")}}</th>
         </tr>

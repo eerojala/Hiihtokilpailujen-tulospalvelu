@@ -60,6 +60,7 @@ class CompetitionController extends BaseController {
             View::make('competition/edit.html', array('errors' => $errors, 'attributes' => $attributes));
         } else {
             $competition->update();
+            Participant::nullify_and_update_competition_standings($competition_id);
             Redirect::to('/competition/' . $competition->id, array('message' => 'Kilpailua muokattu onnistuneesti!'));
         }
     }

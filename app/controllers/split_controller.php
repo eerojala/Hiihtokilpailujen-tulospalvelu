@@ -4,28 +4,28 @@ class SplitController extends BaseController {
 
     public static function competition_splits($competition_id) {
         $participants = Participant::get_competition_participants($competition_id);
-        $first_splits = Split::get_xth_competition_splits_by_participant_id($competition_id, 1);
-        $second_splits = Split::get_xth_competition_splits_by_participant_id($competition_id, 2);
-        $final_splits = Split::get_xth_competition_splits_by_participant_id($competition_id, 3);
         $competition = Competition::find($competition_id);
-        self::index_view($participants, $first_splits, $second_splits, $final_splits, $competition, '');
+        $splits = Split::get_every_competition_split($competition->id);
+
+        self::index_view($participants, $splits, $competition, '');
     }
 
-    private static function index_view($participants, $first_splits, $second_splits, $final_splits, $competition, $message) {
-        View::make('split/index.html', array('participants' => $participants,
-            'first_splits' => $first_splits, 'second_splits' => $second_splits,
-            'final_splits' => $final_splits, 'competition' => $competition,
-            'message' => $message));
+    private static function index_view($participants, $splits, $competition, $message) {
+        View::make('split/index.html', array(
+            'participants' => $participants, 'splits' => $splits,
+            'competition' => $competition, 'message' => $message
+        ));
     }
 
     public static function create($participant_id) {
         self::check_logged_in();
-        $latest_split_number = Split::latest_split_number($participant_id);
+        $latest_split_number = Split::get_latest_split_number($participant_id);
         $participant = Participant::find($participant_id);
+        $competition = Competition::find($participant->competition_id);
 
         if ($latest_split_number == null) {
             self::create_xth_split(1, $participant);
-        } else if ($latest_split_number == 3) {
+        } else if ($latest_split_number == $competition->split_amount) {
             $competition_id = $participant->competition_id;
             Redirect::to('/competition/' . $competition_id . '/splits', array('message' => 'Kilpailijalle on jo kirjattu kaikki ajat.'));
         } else {
@@ -71,12 +71,12 @@ class SplitController extends BaseController {
             'participant_id' => $params['participantid'],
             'split_time' => $params['splittime']
         );
-        
+
         try {
             $attributes['id'] = $params['splitid'];
         } catch (Exception $ex) {
-           $attributes['split_number'] = $params['splitnumber']; 
-        }    
+            $attributes['split_number'] = $params['splitnumber'];
+        }
         return $attributes;
     }
 
@@ -104,8 +104,8 @@ class SplitController extends BaseController {
         $participant = Participant::find($split->participant_id);
         $competition_id = Competition::find($participant->competition_id)->id;
         $errors = $split->validate_split_time();
-        
-        if(count($errors) == 0) {
+
+        if (count($errors) == 0) {
             $split->update();
             Participant::update_competition_standings($competition_id);
             Redirect::to('/competition/' . $competition_id . '/splits', array(
@@ -114,7 +114,7 @@ class SplitController extends BaseController {
         } else {
             $splits = Split::participants_splits($participant->id);
             self::edit_view($participant, $attributes, $splits, $errors);
-        }     
+        }
     }
 
 }

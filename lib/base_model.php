@@ -83,4 +83,8 @@
     public static function interval_is_proper_format($interval) {
         return preg_match("/^(([0-9][0-9])(:[0-5][0-9]){2}.([0-9]){3})$/", $interval);
     }
+    
+    public static function integer_in_range($int, $min, $max) {
+        return $int >= $min && $int <= $max;
+    }
   }

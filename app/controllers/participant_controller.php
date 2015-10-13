@@ -78,6 +78,7 @@ class ParticipantController extends BaseController {
         $attributes['id'] = $id;
         $attributes['competition_name'] = Competition::find($attributes['competition_id'])->name;
         $attributes['competitor_name'] = Competitor::find($attributes['competitor_id'])->name;
+        $attributes['standing'] = Participant::find($id)->standing;
         $participant = new Participant($attributes);
         $errors = $participant->validate_number();
 

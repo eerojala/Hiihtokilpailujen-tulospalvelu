@@ -111,7 +111,9 @@ class Participant extends BaseModel {
     }
 
     public static function update_competition_standings($competition_id) {
-        $participant_ids = self::get_participant_ids_ordered_by_split_times($competition_id, 3);
+        $competition = Competition::find($competition_id);
+        $participant_ids = self::get_participant_ids_ordered_by_split_times(
+                        $competition_id, $competition->split_amount);
         $standing = 1;
         foreach ($participant_ids as $id) {
             $participant = self::find($id);
@@ -133,6 +135,17 @@ class Participant extends BaseModel {
             $ids[] = $row['id'];
         }
         return $ids;
+    }
+    
+    public static function nullify_competition_standings($competition_id) {
+        $query = DB::connection()->prepare('UPDATE Participant '
+                . 'SET standing = null WHERE competitionid = :id');
+        $query->execute(array('id' => $competition_id));
+    }
+    
+    public static function nullify_and_update_competition_standings($competition_id) {
+        self::nullify_competition_standings($competition_id);
+        self::update_competition_standings($competition_id);
     }
 
     public static function delete($id) {
@@ -170,7 +183,7 @@ class Participant extends BaseModel {
     public function validate_number() {
         $errors = array();
 
-        if ($this->number <= 0 || $this->number >= 10000) {
+        if (!self::integer_in_range($this->number, 1, 9999)) {
             $errors[] = 'Numeron tulee olla kokonaisluku väliltä 1-9999';
         } else if (in_array($this->number, Participant::get_competition_participant_numbers($this->competition_id))) {
             $errors[] = 'Tämä numero on jo annettu toiselle kilpailijalle tässä kilpailussa';
