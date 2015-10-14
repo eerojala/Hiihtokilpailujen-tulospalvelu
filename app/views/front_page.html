@@ -4,9 +4,9 @@
 {% import "macros/buttons.html" as buttons %}
 {% import "macros/forms.html" as forms %}
 
-{{misc.display_message("#{message}")}};
+{{misc.display_message("#{message}")}}
 <h1>Hiihtokilpailujen tulospalvelu</h1>
-{{forms.search_form("#{base_path}/competition", "Etsi kilpailu")}}
+{{forms.search_form("#{base_path}/competition", "Etsi kilpailu", true)}}
 <p></p>
-{{forms.search_Form("#{base_path}/competitor", "Etsi kilpailija")}}
+{{forms.search_Form("#{base_path}/competitor", "Etsi kilpailija", true)}}
 {% endblock %}

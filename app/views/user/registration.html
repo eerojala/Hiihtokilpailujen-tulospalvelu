@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/misc.html" as misc %}
+{% import "macros/buttons.html" as buttons %}
+<h1>Rekisteröidy palveluun</h1>
+
+{{misc.display_errors("#{errors}")}}
+
+<form method="post" action="{{base_path}}/user">
+    <div class="form-group">
+        <label class="control-label">Käyttäjätunnus</label>
+        <input type="text" name="username" class="form-control" value="{{attributes.username}}">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Oikea nimi</label>
+        <input type="text" name="name" class="form-control" value="{{attributes.real_name}}">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Salasana</label>
+        <input type="password" name="password1" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Salasanan vahvistus</label>
+        <input type="password" name="password2" class="form-control">
+    </div>
+
+    <div class="form-group">
+        {{buttons.submit_button("Rekisteröidy")}}
+    </div>
+</form>
+{% endblock %}

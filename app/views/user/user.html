@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/misc.html" as misc %}
+
+{{misc.display_message("#{message}")}}
+
+<h1>{{user.username}}</h1>
+
+<div>
+    {{buttons.edit_button("#{base_path}/user/#{user.id}/admin_edit")}}{{buttons.destroy_button("#{base_path}/user/#{user.id}/destroy", "Oletko varma että haluat poistaa käyttäjätunnuksen #{user.username}?")}}  
+</div>
+
+<p></p>
+
+<ul>
+    <li><strong>Nimi: </strong>{{user.real_name}}</li>
+    <li><strong>Käyttäjätyyppi: </strong>{{user.type}}</li>
+</ul>
+{% if user.type == 'recorder' %}
+<ul>
+    <li><Strong>Kilpailut joihin mittausoikeudet:</Strong></li>
+    {% for competition in competitions %}
+    <li><strong><a href='{{base_path}}/competition/{{competition.id}}'>{{competition.name}}</a></strong></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

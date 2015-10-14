@@ -75,6 +75,22 @@ class Competition extends BaseModel {
         $query = DB::connection()->prepare('DELETE FROM Competition WHERE id = :id');
         $query->execute(array('id' => $id));
     }
+    
+    public static function get_competitions_which_user_has_recording_rights_to($user_id) {
+        $query = DB::connection()->prepare(
+                'SELECT Competition.id, competitionname, location, splitamount, startsat, endsat '
+                . 'FROM Competition '
+                . 'INNER JOIN Recorder On Competition.id = Recorder.competitionid '
+                . 'AND Recorder.userid = :id ORDER BY competitionname ASC');
+        $query->execute(array('id' => $user_id));
+        $rows = $query->fetchAll();
+        $competitions = array();
+        
+        foreach($rows as $row) {
+            $competitions[]= new Competition(self::get_attributes($row));
+        }
+        return $competitions;
+    }
 
     public function validate_name() {
         $errors = array();

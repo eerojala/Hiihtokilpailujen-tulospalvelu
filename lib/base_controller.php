@@ -10,7 +10,7 @@ class BaseController {
         return null;
     }
 
-    public static function check_admin_logged_in() {
+    protected static function check_admin_logged_in() {
         self::redirect_to_login_if_not_logged_in();
 
         if (self::get_user_logged_in()->type != 'admin') {
@@ -29,7 +29,7 @@ class BaseController {
             'message' => 'Sinulla ei ole oikeuksia tähän toimintoon'));
     }
 
-    public static function check_admin_or_recorder_logged_in($competition_id) {
+    protected static function check_admin_or_recorder_logged_in($competition_id) {
         self::redirect_to_login_if_not_logged_in();
         $user = self::get_user_logged_in();
         
@@ -38,7 +38,14 @@ class BaseController {
         } else if ($user->type != 'admin') {
             self::redirect_to_previous_page();
         }
-        
     }
 
+    protected static function get_search_term() {
+        $params = $_GET;
+        
+        if(isset($params['name'])) {
+            return $params['name'];
+        }
+        return '';
+    }
 }

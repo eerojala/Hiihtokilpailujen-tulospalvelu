@@ -1,5 +1,7 @@
-INSERT INTO Operator (username, password, usertype) VALUES ('admin', '12345', 'admin');
-INSERT INTO Operator (username, password, usertype) VALUES ('test', 'qwerty', 'recorder');
+INSERT INTO Operator (username, password, usertype, realName) 
+VALUES ('admin', '12345', 'admin', 'Eero M. Ojala');
+INSERT INTO Operator (username, password, usertype, realName) 
+VALUES ('test', 'qwerty', 'recorder', 'Mr. Recorder');
 
 INSERT INTO Competitor (competitorName, birthdate, country) VALUES ('Testikilpailija 1', 
 DATE '1994-11-22', 'Suomi');

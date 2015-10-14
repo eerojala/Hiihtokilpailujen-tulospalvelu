@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/misc.html" as misc %}
+{% import "macros/buttons.html" as buttons %}
+<h1>Hallinnoi käyttäjää {{user.username}}</h1>
+
+{{misc.display_errors("#{errors}")}}
+
+<form method="post" action="{{base_path}}/user/{{user.id}}/edit_usertype">
+    <div class="form-group">
+        <label>Tunnuksen tyyppi</label>
+        <select class="form-control" name="usertype">
+            <option value="normal">Normaali</option>
+            <option value="recorder">Mittaaja</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        {{buttons.submit_button("Muokkaa")}}
+    </div>
+</form>
+
+{% if user.type == 'recorder' %}
+<form method="post" action="{{base_path}}/user/{{user.id}}/give_recording_rights">
+    <div class="form-group">
+        <label>Anna mittaamisoikeudet kisaan:</label>
+        <select class="form-control" name="competitionid">
+            {% for competition in competitions %}
+            <option value="{{competition.id}}">{{competition.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        {{buttons.submit_button("Lisää")}}
+    </div>
+</form>
+{% endif %}
+{% endblock %}
+

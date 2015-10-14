@@ -115,14 +115,18 @@
 </form>
 {% endmacro %}
 
-{% macro search_form(action, label) %}
+{% macro search_form(action, label, large) %}
 {% import "macros/buttons.html" as buttons %} 
-<form method="get" action="{{action}}">
-    <div class="form-group">
-        <label class="control-label">{{label}}</label>
-        <input type="text" name="name" class="form-control">
-    </div>
-    {{buttons.submit_button("Etsi")}}
-</form>
 
+{% if large == true %}
+<form method="get" action="{{action}}">
+{% else %}
+<form method="get" action="{{action}}" class="form-inline">
+{% endif %}
+        <div class="form-group">
+            <label class="control-label">{{label}}</label>
+            <input type="text" name="name" class="form-control">
+        </div>
+        {{buttons.submit_button("Etsi")}}
+    </form>
 {% endmacro %}

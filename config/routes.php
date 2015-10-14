@@ -40,6 +40,10 @@ $routes->get('/hiekkalaatikko/split_table', function() {
     HelloWorldController::split_table();
 });
 
+$routes->get('/', function() {
+    FrontPageController::index();
+});
+
 $routes->get('/login', function() {
     UserController::login();
 });
@@ -52,8 +56,36 @@ $routes->post('/logout', function() {
     UserController::logout();
 });
 
-$routes->get('/', function() {
-    FrontPageController::index();
+$routes->get('/user', function() {
+    UserController::index();
+});
+
+$routes->post('/user', function() {
+    UserController::store();
+}); 
+
+$routes->get('/register', function() {
+    UserController::register();
+});
+
+$routes->get('/user/:id', function($id) {
+    UserController::view($id);
+});
+
+$routes->get('/user/:id/admin_edit', function($id) {
+    UserController::admin_edit($id);
+});
+
+$routes->post('/user/:id/edit_usertype', function($id) {
+UserController::admin_edit_usertype($id);
+});
+
+$routes->post('/user/:id/give_recording_rights', function ($id) {
+    UserController::give_recording_rights($id);
+});
+
+$routes->post('/user/:id/destroy', function($id) {
+    UserController::destroy($id);
 });
 
 $routes->get('/competitor', function() {

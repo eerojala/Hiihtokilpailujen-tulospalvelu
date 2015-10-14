@@ -3,13 +3,7 @@
 class CompetitorController extends BaseController {
 
     public static function index() {
-        $params = $_GET;
-        $name = '';
-        
-        if (isset($params['name'])) {
-            $name = $params['name'];
-        }
-        
+        $name = self::get_search_term();
         $competitors = Competitor::all($name);
         View::make('competitor/index.html', array('competitors' => $competitors));
     }

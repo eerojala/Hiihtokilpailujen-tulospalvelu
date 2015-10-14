@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/buttons.html" as buttons %}
+{% import "macros/misc.html" as misc %}
+{% import "macros/forms.html" as forms %}
+
+{{misc.display_message("#{message}")}}
+
+
+<h1>Käyttäjät</h1>
+<p></p>
+{{forms.search_form("", "Etsi käyttäjä", false)}}
+<p></p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Käyttäjätunnus</th>
+            <th>Nimi</th>
+            <th>Käyttäjätyyppi</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td><a href="{{base_path}}/user/{{user.id}}">{{user.username}}</a></td>
+            <td>{{user.real_name}}</td>
+            <td>{{user.type}}</td>
+            <th>{{buttons.edit_button_sm("#{base_path}/user/#{user.id}/admin_edit")}}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
