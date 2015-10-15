@@ -39,7 +39,7 @@ class Competition extends BaseModel {
         $query->execute($queryValues);
     }
 
-    public static function all($name) {
+    public static function all($name = null) {
         $rows = self::default_all(
         'Competition', 'competitionname', 'competitionname ILIKE :search', $name);
                 $competitions = array();

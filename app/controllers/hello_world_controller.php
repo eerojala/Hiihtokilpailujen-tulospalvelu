@@ -7,7 +7,7 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        Kint::dump(Competition::get_competitions_which_user_has_recording_rights_to(2));
+        echo 'Here be sand';
     }
 
     public static function competition_edit() {

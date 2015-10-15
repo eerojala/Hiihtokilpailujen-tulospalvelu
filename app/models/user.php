@@ -100,7 +100,7 @@ class User extends BaseModel {
         return false;
     }
 
-    public static function all($search) {
+    public static function all($search = null) {
         $rows = self::default_all('Operator', 'realname', 'username ILIKE :search OR realname ILIKE :search', $search);
         $users = array();
         foreach ($rows as $row) {

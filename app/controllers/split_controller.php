@@ -96,14 +96,13 @@ class SplitController extends BaseController {
     }
 
     public static function update() {
-        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $split_number = Split::find($attributes['id'])->split_number;
         $attributes['split_number'] = $split_number;
         $split = new Split($attributes);
-        $participant = Participant::find($split->participant_id);
-        self::check_admin_or_recorder_logged_in($participant->competition_id);
-        $competition_id = Competition::find($participant->competition_id)->id;
+        $participant = Participant::find($split->participant_id);      
+        $competition_id = $participant->competition_id;
+        self::check_admin_or_recorder_logged_in($competition_id);
         $errors = $split->validate_split_time();
 
         if (count($errors) == 0) {

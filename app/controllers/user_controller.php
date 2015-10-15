@@ -51,7 +51,6 @@ class UserController extends BaseController {
     }
 
     public static function store() {
-        self::check_admin_logged_in();
         $attributes = self::get_attributes();
         $attributes['type'] = 'normal';
         $user = new User($attributes);
