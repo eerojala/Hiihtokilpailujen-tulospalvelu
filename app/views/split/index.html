@@ -14,9 +14,11 @@
         <tr>
             <th>Kilpailijan nimi</th>
             <th>Kilpailijan numero</th>
+            {% if competition.split_amount > 1%}
             {% for i in 1.."#{competition.split_amount}" - 1 %}
             <th>{{i}}. väliaika</th>
             {% endfor %}
+            {% endif %}
             <th>Lopullinen aika</th>
             <th></th>
             <th></th>
